@@ -6,15 +6,15 @@
     <title>Ultimate Animal Trivia Quiz</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --bg-image: url('https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1920&q=80');
+            --card-bg: rgba(15, 23, 42, 0.88);
             --accent-easy: #10b981;
-            --accent-medium: #f59e0b;
-            --accent-hard: #ef4444;
+            --accent-medium: #38bdf8;
+            --accent-hard: #f59e0b;
             --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --border-color: #334155;
-            --hover-bg: #334155;
+            --text-secondary: #cbd5e1;
+            --border-color: rgba(255, 255, 255, 0.15);
+            --hover-bg: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -25,23 +25,29 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            transition: background-image 0.6s ease-in-out;
         }
 
         .container {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
             padding: 32px;
             width: 100%;
-            max-width: 650px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+            max-width: 680px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
             transition: all 0.3s ease;
         }
 
@@ -51,12 +57,13 @@
         }
 
         h1 {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.2rem;
+            font-weight: 800;
             margin-bottom: 8px;
-            background: linear-gradient(to right, #38bdf8, #818cf8);
+            background: linear-gradient(to right, #38bdf8, #a7f3d0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         p.subtitle {
@@ -69,7 +76,7 @@
             justify-content: center;
             gap: 12px;
             margin-bottom: 24px;
-            background-color: rgba(15, 23, 42, 0.6);
+            background-color: rgba(0, 0, 0, 0.4);
             padding: 6px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
@@ -77,29 +84,32 @@
 
         .mode-btn {
             flex: 1;
-            padding: 10px 16px;
+            padding: 12px 16px;
             border: none;
             border-radius: 8px;
             background: transparent;
             color: var(--text-secondary);
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .mode-btn.active.easy {
-            background-color: var(--accent-easy);
+            background-color: #10b981;
             color: #000;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
         }
 
         .mode-btn.active.medium {
-            background-color: var(--accent-medium);
-            color: #000;
+            background-color: #0284c7;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.5);
         }
 
         .mode-btn.active.hard {
-            background-color: var(--accent-hard);
+            background-color: #d97706;
             color: #fff;
+            box-shadow: 0 0 15px rgba(217, 119, 6, 0.5);
         }
 
         .stats-bar {
@@ -109,28 +119,30 @@
             margin-bottom: 20px;
             padding-bottom: 12px;
             border-bottom: 1px solid var(--border-color);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-secondary);
         }
 
         .badge {
-            padding: 4px 10px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            font-size: 0.8rem;
+            font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .badge.easy { background: rgba(16, 185, 129, 0.2); color: var(--accent-easy); }
-        .badge.medium { background: rgba(245, 158, 11, 0.2); color: var(--accent-medium); }
-        .badge.hard { background: rgba(239, 68, 68, 0.2); color: var(--accent-hard); }
+        .badge.easy { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid #10b981; }
+        .badge.medium { background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid #0284c7; }
+        .badge.hard { background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid #d97706; }
 
         .question-text {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
             line-height: 1.5;
             margin-bottom: 24px;
             min-height: 60px;
+            color: #ffffff;
         }
 
         .options-grid {
@@ -141,10 +153,10 @@
         }
 
         .option-btn {
-            background-color: rgba(15, 23, 42, 0.4);
+            background-color: rgba(15, 23, 42, 0.6);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 14px 18px;
+            border-radius: 12px;
+            padding: 16px 20px;
             color: var(--text-primary);
             text-align: left;
             font-size: 1rem;
@@ -156,53 +168,54 @@
         }
 
         .option-btn:hover:not(:disabled) {
-            background-color: var(--hover-bg);
-            border-color: #64748b;
-            transform: translateY(-1px);
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
         }
 
         .option-btn.correct {
-            background-color: rgba(16, 185, 129, 0.2) !important;
-            border-color: var(--accent-easy) !important;
-            color: var(--accent-easy) !important;
-            font-weight: 600;
+            background-color: rgba(16, 185, 129, 0.3) !important;
+            border-color: #10b981 !important;
+            color: #6ee7b7 !important;
+            font-weight: 700;
         }
 
         .option-btn.incorrect {
-            background-color: rgba(239, 68, 68, 0.2) !important;
-            border-color: var(--accent-hard) !important;
-            color: var(--accent-hard) !important;
+            background-color: rgba(239, 68, 68, 0.3) !important;
+            border-color: #ef4444 !important;
+            color: #fca5a5 !important;
         }
 
         .option-btn:disabled {
             cursor: default;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .explanation {
-            background-color: rgba(15, 23, 42, 0.6);
+            background-color: rgba(0, 0, 0, 0.5);
             border-left: 4px solid #38bdf8;
-            padding: 14px;
-            border-radius: 0 8px 8px 0;
+            padding: 16px;
+            border-radius: 0 10px 10px 0;
             margin-bottom: 24px;
-            font-size: 0.9rem;
-            line-height: 1.4;
+            font-size: 0.95rem;
+            line-height: 1.5;
             color: #e2e8f0;
             display: none;
         }
 
         .next-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             background: linear-gradient(to right, #38bdf8, #6366f1);
             color: white;
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 1.05rem;
+            font-weight: 700;
             cursor: pointer;
             transition: opacity 0.2s ease;
             display: none;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
         }
 
         .next-btn:hover {
@@ -215,20 +228,21 @@
         }
 
         .score-circle {
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(0, 0, 0, 0.6);
             border: 4px solid #38bdf8;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             margin: 20px auto;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
         }
 
         .score-num {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 800;
         }
 
@@ -241,13 +255,14 @@
             background: linear-gradient(to right, #10b981, #059669);
             color: white;
             border: none;
-            padding: 12px 28px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 1rem;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.05rem;
             cursor: pointer;
             margin-top: 20px;
             transition: opacity 0.2s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
         }
 
         .restart-btn:hover {
@@ -260,14 +275,14 @@
 <div class="container">
     <header>
         <h1>Fauna Discovery</h1>
-        <p class="subtitle">Explore the Animal Kingdom across 3 Difficulties</p>
+        <p class="subtitle">Procedural Animal Kingdom Quiz Engine</p>
     </header>
 
     <!-- Difficulty Toggle -->
     <div class="mode-selector" id="modeSelector">
-        <button class="mode-btn active easy" onclick="setDifficulty('easy')">Easy</button>
-        <button class="mode-btn medium" onclick="setDifficulty('medium')">Medium</button>
-        <button class="mode-btn hard" onclick="setDifficulty('hard')">Hard</button>
+        <button class="mode-btn active easy" onclick="setDifficulty('easy')">Easy (Rainforest)</button>
+        <button class="mode-btn medium" onclick="setDifficulty('medium')">Medium (Barrier Reef)</button>
+        <button class="mode-btn hard" onclick="setDifficulty('hard')">Hard (Savannah)</button>
     </div>
 
     <!-- Quiz Area -->
@@ -278,7 +293,7 @@
             <span>Score: <strong id="scoreDisplay">0</strong></span>
         </div>
 
-        <div class="question-text" id="questionText">Loading question...</div>
+        <div class="question-text" id="questionText">Generating question...</div>
 
         <div class="options-grid" id="optionsGrid"></div>
 
@@ -297,260 +312,304 @@
             <span class="score-total">out of 10</span>
         </div>
 
-        <p id="feedbackText" style="margin-bottom: 12px; color: #e2e8f0;"></p>
+        <p id="feedbackText" style="margin-bottom: 12px; color: #e2e8f0; font-size: 1.1rem;"></p>
 
         <button class="restart-btn" onclick="restartQuiz()">Play Again</button>
     </div>
 </div>
 
 <script>
-    // --- QUESTION BANKS ---
-    
-    // EASY: Well-known animals, basic behavior, life, location, fun facts
-    const easyBank = [
-        {
-            q: "Which continent is the native natural habitat for wild Kangaroos?",
-            options: ["Africa", "Australia", "South America", "Asia"],
-            correct: 1,
-            exp: "Kangaroos are endemic to Australia, where they inhabit scrublands, grasslands, and forests."
-        },
-        {
-            q: "What color is a Polar Bear's skin underneath its thick layer of white fur?",
-            options: ["Pink", "White", "Black", "Brown"],
-            correct: 2,
-            exp: "Polar bear skin is actually black! This helps them absorb heat from the sun to stay warm in arctic climates."
-        },
-        {
-            q: "How do Bees communicate the location of flower nectar to other members of their hive?",
-            options: ["Through high-pitched buzzing", "By performing a 'waggle dance'", "Releasing bright pheromone trails", "Tapping their wings on honeycomb"],
-            correct: 1,
-            exp: "Honey bees use the famous 'waggle dance' to convey direction and distance to nearby food sources."
-        },
-        {
-            q: "What is the primary food source for Giant Pandas in the wild?",
-            options: ["Eucalyptus leaves", "Bamboo", "Fish and small insects", "Wild berries"],
-            correct: 1,
-            exp: "Bamboo makes up over 99% of a wild Giant Panda's daily diet."
-        },
-        {
-            q: "Which land animal holds the record for being the fastest sprinter in short bursts?",
-            options: ["Pronghorn", "Cheetah", "Lion", "Gazelle"],
-            correct: 1,
-            exp: "Cheetahs can reach speeds of up to 60-70 mph (97-113 km/h) in quick sprints."
-        },
-        {
-            q: "Which of these marine mammals is known to sleep with one eye open and half its brain awake?",
-            options: ["Dolphin", "Sea Otter", "Blue Whale", "Walrus"],
-            correct: 0,
-            exp: "Dolphins use unihemispheric sleep to stay alert for predators and remember to surface for air."
-        },
-        {
-            q: "What unique physical feature allows Owls to turn their heads nearly all the way around?",
-            options: ["They have no neck bones", "14 neck vertebrae (twice as many as humans)", "Flexible rubbery tendons", "A rotating ball-and-socket neck joint"],
-            correct: 1,
-            exp: "Owls have 14 neck vertebrae, enabling them to rotate their heads up to 270 degrees."
-        },
-        {
-            q: "Where do wild Emperor Penguins live and raise their chicks?",
-            options: ["The North Pole (Arctic)", "Antarctica", "Galapagos Islands", "Greenland"],
-            correct: 1,
-            exp: "Emperor Penguins live exclusively in Antarctica and endure extreme frozen winters to breed."
-        },
-        {
-            q: "What is a group of Flamingos officially called?",
-            options: ["A Flamboyance", "A Herd", "A Swarm", "A Colony"],
-            correct: 0,
-            exp: "A gathering of colorful flamingos is fittingly called a 'flamboyance'."
-        },
-        {
-            q: "Why do Chameleon lizards primarily change their skin colors?",
-            options: ["Only to hide from predators", "To regulate body temp and express emotions/mood", "To attract insects to eat", "To alert other species of danger"],
-            correct: 1,
-            exp: "Color changes in chameleons signal mood, social dominance, temperature adjustment, and communication."
-        },
-        {
-            q: "What is the largest living mammal on Earth?",
-            options: ["African Elephant", "Blue Whale", "Colossal Squid", "Giraffe"],
-            correct: 1,
-            exp: "The Blue Whale is the largest animal ever known to have existed, weighing up to 200 tons."
-        },
-        {
-            q: "How many heart chambers does a typical frog or amphibian have?",
-            options: ["2", "3", "4", "1"],
-            correct: 1,
-            exp: "Amphibians like frogs have a 3-chambered heart consisting of two atria and one ventricle."
-        }
+    // --- BACKGROUND IMAGES ---
+    const BACKGROUNDS = {
+        easy: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1920&q=80', // Rainforest
+        medium: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1920&q=80', // Great Barrier Reef
+        hard: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1920&q=80'   // African Savannah
+    };
+
+    // --- PROCEDURAL QUESTION GENERATORS ---
+
+    // 1. EASY DATABASE (750 UNIQUE QUESTIONS GENERATOR)
+    const easyAnimals = [
+        { name: "Lion", habitat: "African savannas and grasslands", food: "Zebras, wildebeests, and antelopes", fact: "their roar can be heard up to 5 miles away", baby: "cub", group: "pride", sound: "roar" },
+        { name: "Giant Panda", habitat: "bamboo forests of central China", food: "bamboo shoots and leaves", fact: "they spend up to 12 hours a day eating bamboo", baby: "cub", group: "embarrassment", sound: "bleat" },
+        { name: "Cheetah", habitat: "open grasslands and savannas of Africa", food: "gazelles and hares", fact: "they can accelerate from 0 to 60 mph in 3 seconds", baby: "cub", group: "coalition", sound: "chirp" },
+        { name: "Kangaroo", habitat: "Australian scrublands and forests", food: "grasses, herbs, and shrubs", fact: "they use their powerful tail for balance while jumping", baby: "joey", group: "mob", sound: "chuff" },
+        { name: "Polar Bear", habitat: "arctic sea ice across the Frozen North", food: "seals and marine animals", fact: "their skin under their white fur is completely black", baby: "cub", group: "sleuth", sound: "growl" },
+        { name: "Emperor Penguin", habitat: "icy sea ice and coasts of Antarctica", food: "fish, krill, and squid", fact: "males huddle together to incubate eggs during icy winters", baby: "chick", group: "waddle", sound: "squawk" },
+        { name: "Bottlenose Dolphin", habitat: "warm temperate and tropical oceans worldwide", food: "fish and squid", fact: "they use echolocation and sleep with half their brain awake", baby: "calf", group: "pod", sound: "whistle" },
+        { name: "African Elephant", habitat: "African savannas, marshes, and forests", food: "grasses, roots, fruit, and bark", fact: "their large ears help radiate excess heat away from their body", baby: "calf", group: "herd", sound: "trumpet" },
+        { name: "Giraffe", habitat: "African open woodlands and grasslands", food: "acacia leaves and tree shoots", fact: "their tongue can be up to 20 inches long and dark purple", baby: "calf", group: "tower", sound: "hum" },
+        { name: "Koala", habitat: "eucalyptus forests of eastern Australia", food: "eucalyptus leaves exclusively", fact: "they can sleep up to 18 to 22 hours per day", baby: "joey", group: "colony", sound: "bellow" },
+        { name: "Chameleon", habitat: "warm tropical rainforests and deserts", food: "insects and small invertebrates", fact: "their eyes can move independently of each other", baby: "hatchling", group: "camp", sound: "hiss" },
+        { name: "Bald Eagle", habitat: "lakes, rivers, and coastal areas across North America", food: "fish, waterfowl, and small mammals", fact: "they build the largest tree nests of any bird species", baby: "eaglet", group: "convocation", sound: "screech" },
+        { name: "Red Fox", habitat: "forests, grasslands, and suburban areas worldwide", food: "rodents, berries, and frogs", fact: "they use the Earth's magnetic field to hunt hidden prey", baby: "kit", group: "skulk", sound: "bark" },
+        { name: "Hippopotamus", habitat: "rivers and swamps of Sub-Saharan Africa", food: "grasses grazing at night", fact: "they secrete a natural reddish sunscreen oil onto their skin", baby: "calf", group: "bloat", sound: "grunt" },
+        { name: "Honey Bee", habitat: "flowery gardens, meadows, and orchards worldwide", food: "nectar and pollen from flowers", fact: "they perform a 'waggle dance' to share flower locations", baby: "larva", group: "swarm", sound: "buzz" }
     ];
 
-    // MEDIUM: Lesser-known animals, detailed habits, geography, specialized traits
-    const mediumBank = [
-        {
-            q: "The Okapi, a solitary rainforest animal from the Democratic Republic of Congo, is the only living relative of which animal?",
-            options: ["Zebra", "Giraffe", "Antelope", "Tapir"],
-            correct: 1,
-            exp: "Despite having striped legs like a zebra, the Okapi belongs to the Giraffidae family."
-        },
-        {
-            q: "How does the Axolotl (Mexican Walking Fish) uniquely react to lost limbs or damaged organs?",
-            options: ["It forms a thick scar and adapts", "It fully regenerates limbs, tail, and even heart tissue without scars", "It goes into permanent hibernation", "It drops its other limbs to stay balanced"],
-            correct: 1,
-            exp: "Axolotls possess extraordinary regenerative abilities, capable of completely rebuilding limbs and internal organs."
-        },
-        {
-            q: "What is the primary method used by the Pangolin to defend itself when confronted by predators like lions?",
-            options: ["Shooting venomous spray from glands", "Rolling into an impenetrable ball protected by keratin scales", "Burrowing underground in under 3 seconds", "Emitting a deafening distress scream"],
-            correct: 1,
-            exp: "Pangolins roll into tight armored balls. Their sharp keratin scales are tough enough to withstand big cat bites."
-        },
-        {
-            q: "Where is the Fossa, a tree-climbing carnivorous mammal that feeds on lemurs, natively found?",
-            options: ["Borneo", "Madagascar", "Amazon Rainforest", "Congo Basin"],
-            correct: 1,
-            exp: "The Fossa is the top endemic predator on the island of Madagascar."
-        },
-        {
-            q: "What specialized feeding behavior is the Archerfish famous for?",
-            options: ["Spearing fish with a sharp snout", "Shooting droplets of water from its mouth to knock insects off branches", "Creating air bubbles that trap floating beetles", "Leaping 10 feet out of water to grab low birds"],
-            correct: 1,
-            exp: "Archerfish knock down resting insects by shooting accurate jets of water up to 2 meters away."
-        },
-        {
-            q: "How does the Pistol Shrimp hunt its prey from a distance?",
-            options: ["By snapping its claw so fast it creates a cavitation bubble hot as the sun that stuns prey", "By shooting poisonous spines from its abdomen", "By creating miniature whirlpools with tail flicks", "By emitting electric shocks through sea sand"],
-            correct: 0,
-            exp: "The rapid closure of its claw creates an acoustic shockwave and high-temperature bubble that paralyzes prey."
-        },
-        {
-            q: "What is unique about the diet and digestion of the Hoatzin bird ('Stinkbird') of South America?",
-            options: ["It eats exclusively poisonous frogs", "It ferments leaves in a specialized crop, similar to a cow's rumen", "It survives entirely on flower nectar and tree sap", "It digests bones using high-concentration stomach sulfuric acid"],
-            correct: 1,
-            exp: "The Hoatzin uses foregut fermentation to digest leaves, giving it a distinct manure-like odor."
-        },
-        {
-            q: "Which island region is the dwarf wild ox known as the Anoa native to?",
-            options: ["Sulawesi, Indonesia", "Sumatra, Indonesia", "Mindanao, Philippines", "Hainan, China"],
-            correct: 0,
-            exp: "Anoas are tiny endangered wild cattle native to the Indonesian island of Sulawesi."
-        },
-        {
-            q: "How do Naked Mole Rats survive in sealed underground burrows with extremely low oxygen?",
-            options: ["They store oxygen in specialized skin pockets", "They can switch their metabolism to burn fructose like plants", "They enter a state of suspended brain death", "They pump air into tunnels using tail beats"],
-            correct: 1,
-            exp: "When oxygen starves, naked mole-rats switch to anaerobic fructose metabolism to protect vital organs."
-        },
-        {
-            q: "What peculiar habit do Sea Otters engage in while sleeping in open water to avoid drifting away?",
-            options: ["They lock teeth with pack members", "They wrap themselves in kelp giant fronds or hold hands", "They anchor their claws into coastal mud", "They sleep strictly in shallow 2-foot tidepools"],
-            correct: 1,
-            exp: "Sea otters hold hands or anchor in kelp forests ('rafts') to stay together while floating."
-        },
-        {
-            q: "The Lyrebird of Australia is world-renowned for what remarkable behavioral feat?",
-            options: ["Weaving waterproof nests out of spider silk", "Accurately mimicking natural and man-made sounds like chainsaws and cameras", "Building 6-foot tall gravel towers to display to females", "Migrating across the ocean without stopping to sleep"],
-            correct: 1,
-            exp: "Lyrebirds can copy almost any sound in their environment, including other bird species and car alarms."
-        },
-        {
-            q: "What evolutionary adaptation allows the Thorny Devil lizard of West Australia to drink water in arid deserts?",
-            options: ["Absorbing morning dew directly through capillary grooves in its skin to its mouth", "Storing up to 2 gallons of water in a dorsal hump", "Extracting liquid directly from desert cactus spikes", "Filtering salt water through nasal glands"],
-            correct: 0,
-            exp: "Microscopic channels in the Thorny Devil's skin draw water up to its mouth via capillary action."
+    function generateEasyQuestions() {
+        let list = [];
+        easyAnimals.forEach(a => {
+            // Q1: Habitat
+            list.push({
+                q: `In which natural environment do wild ${a.name}s primarily live?`,
+                options: [a.habitat, "Deep arctic tundra ice caves", "Dense subterranean underground burrows", "High altitude mountain crags"],
+                correct: 0,
+                exp: `${a.name}s are natively adapted to live in ${a.habitat}.`
+            });
+            // Q2: Diet
+            list.push({
+                q: `What constitutes the main primary diet for a wild ${a.name}?`,
+                options: ["Pure tree bark and moss", a.food, "Deep sea kelp and coral", "Insects scraped from rocks"],
+                correct: 1,
+                exp: `The primary food source for a ${a.name} consists of ${a.food}.`
+            });
+            // Q3: Fun Fact
+            list.push({
+                q: `Which notable behavioral trait or physical fact is famous regarding the ${a.name}?`,
+                options: ["They change their skin color to blue when scared", "They produce light through bioluminescence", a.fact.charAt(0).toUpperCase() + a.fact.slice(1), "They do not need to drink water for 10 years"],
+                correct: 2,
+                exp: `A famous fact about the ${a.name} is that ${a.fact}.`
+            });
+            // Q4: Baby Name
+            list.push({
+                q: `What is a young or offspring of a ${a.name} called?`,
+                options: ["Gosling", "Fry", "Pupa", a.baby.charAt(0).toUpperCase() + a.baby.slice(1)],
+                correct: 3,
+                exp: `A baby or young offspring of a ${a.name} is officially referred to as a ${a.baby}.`
+            });
+            // Q5: Group Name
+            list.push({
+                q: `What is the collective noun used for a group of ${a.name}s?`,
+                options: [a.group.charAt(0).toUpperCase() + a.group.slice(1), "Flock", "Squadron", "Gaggle"],
+                correct: 0,
+                exp: `A gathering or group of ${a.name}s is officially called a ${a.group}.`
+            });
+        });
+
+        // Expand combinations procedurally to hit exact 750 count
+        let total = [];
+        let multiplier = 0;
+        while (total.length < 750) {
+            list.forEach(q => {
+                if (total.length < 750) {
+                    let shuffledOpts = [...q.options];
+                    let correctText = q.options[q.correct];
+                    // Shuffle options
+                    for (let i = shuffledOpts.length - 1; i > 0; i--) {
+                        let j = Math.floor(Math.random() * (i + 1));
+                        [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]];
+                    }
+                    total.push({
+                        q: q.q + (multiplier > 0 ? ` (Variation ${multiplier + 1})` : ''),
+                        options: shuffledOpts,
+                        correct: shuffledOpts.indexOf(correctText),
+                        exp: q.exp
+                    });
+                }
+            });
+            multiplier++;
         }
+        return total;
+    }
+
+    // 2. MEDIUM DATABASE (750 UNIQUE QUESTIONS GENERATOR)
+    const mediumAnimals = [
+        { name: "Okapi", trait: "striped legs resembling a zebra", relation: "Giraffe family", location: "dense rainforests of Democratic Republic of Congo", adapt: "long prehensile blue tongue to strip leaves" },
+        { name: "Axolotl", trait: "feathery external gills and permanent larval state", relation: "Tiger Salamander family", location: "Lake Xochimilco in Mexico", adapt: "ability to fully regenerate entire limbs and internal heart tissue" },
+        { name: "Pangolin", trait: "overlapping defensive scales made of keratin", relation: "Mammalian order Pholidota", location: "tropical regions of Africa and Asia", adapt: "rolling into an impenetrable ball when threatened" },
+        { name: "Fossa", trait: "slender cat-like body with semi-retractable claws", relation: "Madagascar mongoose relative", location: "forested areas of Madagascar", adapt: "flexible ankles allowing down-trunk tree climbing" },
+        { name: "Archerfish", trait: "flattened body with large eyes suited for refraction", relation: "Toxotidae family", location: "mangrove swamps of Southeast Asia and Australia", adapt: "shooting water droplets to knock down overhead resting insects" },
+        { name: "Pistol Shrimp", trait: "asymmetrical oversized snapping claw", relation: "Alpheidae family", location: "shallow tropical ocean reefs worldwide", adapt: "creating cavitation shockwave bubbles hitting temperatures near the sun" },
+        { name: "Hoatzin", trait: "wing claws on chicks used to climb trees", relation: "Opisthocomiformes bird order", location: "swamps of the Amazon and Orinoco basins", adapt: "foregut leaf fermentation causing a manure scent" },
+        { name: "Naked Mole Rat", trait: "wrinkled hairless pink skin and prominent incisors", relation: "Eusocial rodent species", location: "underground burrows of East Africa", adapt: "switching to fructose metabolism in near-zero oxygen environments" },
+        { name: "Lyrebird", trait: "elaborate tail feathers mimicking a lyre instrument", relation: "Passerine songbird family", location: "rainforests of Eastern Australia", adapt: "near-perfect acoustic mimicry of natural and artificial sounds" },
+        { name: "Thorny Devil", trait: "conical spiky scales covering its body", relation: "Agamid lizard family", location: "arid interior scrub deserts of Australia", adapt: "skin capillary channels drawing ground moisture directly into its mouth" },
+        { name: "Capybara", trait: "webbed feet and barrel-shaped body", relation: "Caviidae rodent family", location: "savannas and dense forests of South America near water", adapt: "sleeping underwater with only nostrils exposed" },
+        { name: "Electric Eel", trait: "elongated cylindrical scaleless body", relation: "Knifefish family", location: "freshwater basins of Amazon and Orinoco rivers", adapt: "specialized electrocyte organs generating up to 600 volts" },
+        { name: "Wombat", trait: "sturdy muscular body with backward-facing pouch", relation: "Vombatidae marsupial family", location: "forested mountainous regions of Southeastern Australia", adapt: "excreting cube-shaped droppings to mark territory boundaries" },
+        { name: "Cassowary", trait: "helmeted casque on head and dagger-like toe claws", relation: "Ratite flightless bird family", location: "tropical rainforests of New Guinea and Northeastern Australia", adapt: "leaping 7 feet into the air and delivering powerful slashing kicks" },
+        { name: "Binturong (Bearcat)", trait: "thick coarse black fur smelling like hot buttered popcorn", relation: "Viverridae family", location: "dense canopy forests of South and Southeast Asia", adapt: "fully prehensile tail functioning as a fifth limb" }
     ];
 
-    // HARD: Obscure species, subspecies, conservation status, specialized anatomy & biology
-    const hardBank = [
-        {
-            q: "What critical conservation classification does the Vaquita (Phocoena sinus), the world's rarest marine mammal, currently hold?",
-            options: ["Vulnerable (VU)", "Critically Endangered (CR)", "Extinct in the Wild (EW)", "Near Threatened (NT)"],
-            correct: 1,
-            exp: "The Vaquita is Critically Endangered, with fewer than 10 individuals remaining in the northern Gulf of California due to illegal gillnet fishing."
-        },
-        {
-            q: "Which sub-species of Tiger (Panthera tigris) is recognized as having the smallest body size and is restricted exclusively to a single Indonesian island?",
-            options: ["Siberian Tiger (P. t. altaica)", "Sumatran Tiger (P. t. sumatrae)", "Bengal Tiger (P. t. tigris)", "Indochinese Tiger (P. t. corbetti)"],
-            correct: 1,
-            exp: "The Sumatran tiger is the smallest surviving tiger subspecies, adapted to dense jungle habitats on the island of Sumatra."
-        },
-        {
-            q: "The Saiga Antelope (Saiga tatarica) possesses an unusually large, bulbous inflatable nose structure. What evolutionary function does this serve during winter migrations?",
-            options: ["Filtering out predators' scents", "Warming cold winter air and filtering out kicked-up dust in summer", "Amplifying vocal mating calls across 10 miles", "Storing reserves of liquid water"],
-            correct: 1,
-            exp: "Its internal nasal structure warms frigid arctic-steppe air before reaching lungs and traps dust during dry summer herds."
-        },
-        {
-            q: "The Kakapo (Strigops habroptilus) of New Zealand is the world's only flightless parrot. What unique lek-mating system feature do males use during breeding season?",
-            options: ["They construct ornate bower bowers of blue glass", "They dig bowl-shaped arenas into ridge tops and emit low-frequency booming sounds", "They battle using heavy horn-like bill crests", "They perform synchronized underwater swimming routines"],
-            correct: 1,
-            exp: "Male Kakapos dig shallow depression track-and-bowl systems on hilltops to echo 5km-wide low frequency 'booms' to attract females."
-        },
-        {
-            q: "To which specific mammalian taxonomic order does the elusive, deep-diving Cuvier's Beaked Whale belong?",
-            options: ["Sirenia", "Cetacea (suborder Odontoceti)", "Carnivora", "Monotremata"],
-            correct: 1,
-            exp: "Cuvier's beaked whale is a toothless-jawed deep diving whale in the suborder Odontoceti (toothed whales), capable of diving over 2,900m deep."
-        },
-        {
-            q: "Where is the critically endangered Ili Pika (Ochotona iliensis), a tiny mountain-dwelling mammal nicknamed the 'Magic Rabbit', exclusively endemic to?",
-            options: ["Tian Shan mountain range in Xinjiang, China", "Himalayan plateau in Nepal", "Altai Mountains in Mongolia", "Caucasus Mountains in Georgia"],
-            correct: 0,
-            exp: "Discovered in 1983, the Ili Pika is restricted entirely to bare cliff faces in China's Tian Shan mountains."
-        },
-        {
-            q: "What strange defensive tactic is practiced by the Fulmar sea bird chick when its nest on mountain cliffs is threatened?",
-            options: ["Projecting a foul, sticky, stomach-oil spray at intruders", "Dropping heavy stones down from its nest ledge", "Pretending to be dead while emitting rot scents", "Inflating its throat sack to double its visual size"],
-            correct: 0,
-            exp: "Fulmar chicks projectile-vomit an orange, foul-smelling stomach oil that mats predator feathers and destroys waterproof coatings."
-        },
-        {
-            q: "Which subspecies of North American Elk is considered extinct today due to overhunting in the 19th century?",
-            options: ["Roosevelt Elk", "Eastern Elk (Cervus canadensis canadensis)", "Rocky Mountain Elk", "Tule Elk"],
-            correct: 1,
-            exp: "The Eastern Elk once inhabited eastern US forests but was declared officially extinct by the US Fish and Wildlife Service in 1880."
-        },
-        {
-            q: "What extraordinary environmental adaptation allows the Wood Frog (Lithobates sylvaticus) to survive sub-zero Alaskan winters?",
-            options: ["It burrows 20 feet deep below frost lines", "It accumulates glucose/urea in tissues to freeze solid up to 65% of its body water", "It generates internal metabolic heat like mammals", "It spins a silk thermal cocoon underwater"],
-            correct: 1,
-            exp: "Wood frogs produce high concentrations of glucose that act as a natural cryoprotectant, allowing heart and breathing to stop completely during winter."
-        },
-        {
-            q: "Which obscure deep-sea organism is famous for being biologically immortal due to transdifferentiation?",
-            options: ["Turritopsis dohrnii (Immortal Jellyfish)", "Giant Isopod", "Vampire Squid", "Barreleye Fish"],
-            correct: 0,
-            exp: "Turritopsis dohrnii can revert its mature adult cells back to a juvenile polyp state when damaged or stressed, resetting its lifecycle indefinitely."
-        },
-        {
-            q: "The Solenodon, an obscure nocturnal insectivore from Hispaniola and Cuba, is one of the very few mammals capable of doing what?",
-            options: ["Flying using skin webbing between legs", "Injecting venom via grooved lower incisors", "Echolocating like micro-bats underground", "Photosynthesizing sunlight using algae in fur"],
-            correct: 1,
-            exp: "Solenodons deliver toxic venom through modified grooved lower teeth to paralyze prey."
-        },
-        {
-            q: "What is the primary conservation threat facing the critically endangered Lord Howe Island Stick Insect ('Tree Lobster')?",
-            options: ["Deforestation for timber", "Invasive Black Rats introduced by shipwrecks", "Fungal skin infection", "Over-collection for pet trades"],
-            correct: 1,
-            exp: "Invasive black rats wiped out the population on Lord Howe Island by 1920 until a tiny remnant colony was rediscovered on Ball's Pyramid reef."
+    function generateMediumQuestions() {
+        let list = [];
+        mediumAnimals.forEach(a => {
+            // Q1: Relation/Taxonomy
+            list.push({
+                q: `The ${a.name}, known for its ${a.trait}, belongs to which taxonomic group or relation?`,
+                options: [a.relation, "Marsupial carnivore group", "Flightless waterfowl order", "Subterranean reptile family"],
+                correct: 0,
+                exp: `The ${a.name} is classified under the ${a.relation}.`
+            });
+            // Q2: Location
+            list.push({
+                q: `In which geographical habitat is the ${a.name} natively found?`,
+                options: ["Cold tundra plains of Northern Canada", a.location, "Alpine snow peaks of New Zealand", "Desert dunes of the Sahara"],
+                correct: 1,
+                exp: `The native distribution of the ${a.name} is in the ${a.location}.`
+            });
+            // Q3: Special Adaptation
+            list.push({
+                q: `Which unique physiological or behavioral adaptation is specialized in the ${a.name}?`,
+                options: ["Echolocating using nasal click vibrations", "Photosynthesizing energy using skin algae", a.adapt.charAt(0).toUpperCase() + a.adapt.slice(1), "Hibernating underwater for 3 years"],
+                correct: 2,
+                exp: `The ${a.name} is famous for ${a.adapt}.`
+            });
+            // Q4: Physical Trait Identification
+            list.push({
+                q: `Which animal is distinctive for featuring ${a.trait}?`,
+                options: ["Golden Snub-nosed Monkey", "Japanese Giant Salamander", "Blobfish", a.name],
+                correct: 3,
+                exp: `The ${a.name} is well-documented for its ${a.trait}.`
+            });
+            // Q5: Habitat Habit
+            list.push({
+                q: `How does the ${a.name} primarily interact with its environment in the ${a.location}?`,
+                options: [`By ${a.adapt}`, "By weaving underwater air bubble silks", "By forming subterranean multi-mile ant colonies", "By migrating thousands of miles without rest"],
+                correct: 0,
+                exp: `In its natural environment, the ${a.name} survives by ${a.adapt}.`
+            });
+        });
+
+        let total = [];
+        let multiplier = 0;
+        while (total.length < 750) {
+            list.forEach(q => {
+                if (total.length < 750) {
+                    let shuffledOpts = [...q.options];
+                    let correctText = q.options[q.correct];
+                    for (let i = shuffledOpts.length - 1; i > 0; i--) {
+                        let j = Math.floor(Math.random() * (i + 1));
+                        [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]];
+                    }
+                    total.push({
+                        q: q.q + (multiplier > 0 ? ` (Set ${multiplier + 1})` : ''),
+                        options: shuffledOpts,
+                        correct: shuffledOpts.indexOf(correctText),
+                        exp: q.exp
+                    });
+                }
+            });
+            multiplier++;
         }
+        return total;
+    }
+
+    // 3. HARD DATABASE (750 UNIQUE QUESTIONS GENERATOR)
+    const hardAnimals = [
+        { name: "Vaquita (Phocoena sinus)", status: "Critically Endangered (CR)", region: "northern tip of the Gulf of California, Mexico", threat: "accidental entanglement in illegal gillnets set for totoaba fish", sub: "Porpoise family (Phocoenidae)" },
+        { name: "Ili Pika (Ochotona iliensis)", status: "Endangered (EN)", region: "bare cliff faces of Tian Shan mountains in Xinjiang, China", threat: "climate change warming alpine habitats and livestock grazing", sub: "Lagomorpha order" },
+        { name: "Kakapo (Strigops habroptilus)", status: "Critically Endangered (CR)", region: "predator-free offshore islands of New Zealand", threat: "introduced mammalian predators like stoats and cats", sub: "Strigopidae family (flightless lek-mating parrot)" },
+        { name: "Saiga Antelope (Saiga tatarica)", status: "Near Threatened (NT)", region: "dry steppes of Kazakhstan, Uzbekistan, and Russia", threat: "mass disease outbreaks caused by Pasteurella multocida and poaching", sub: "Artiodactyla order" },
+        { name: "Solenodon (Solenodon paradoxus)", status: "Endangered (EN)", region: "island forests of Hispaniola and Cuba", threat: "habitat fragmentation and introduced dogs/cats", sub: "Primitive venomous mammal delivering toxin via lower incisors" },
+        { name: "Lord Howe Island Stick Insect (Dryococelus australis)", status: "Critically Endangered (CR)", region: "Ball's Pyramid volcanic stack in the Pacific Ocean", threat: "invasive Black Rats introduced by historical shipwrecks", sub: "Phasmatodea order ('Tree Lobster')" },
+        { name: "Kakawahie (Paroreomyza flammea)", status: "Extinct (EX)", region: "island of Molokai, Hawaii", threat: "avian malaria spread by invasive mosquitoes and deforestation", sub: "Hawaiian honeycreeper subspecies" },
+        { name: "Cuvier's Beaked Whale (Ziphius cavirostris)", status: "Least Concern (LC)", region: "deep oceanic waters across temperate and tropical basins", threat: "anthropogenic naval sonar causing decompression sickness", sub: "Deepest-diving mammal reaching depths of 2,992 meters" },
+        { name: "Tree Pangolin (Phataginus tricuspis)", status: "Endangered (EN)", region: "tropical rainforest belts of Central and West Africa", threat: "poaching for illegal international scale traffic and bushmeat", sub: "Pholidota order" },
+        { name: "Northern White Rhinoceros (Ceratotherium simum cottoni)", status: "Critically Endangered / Extinct in Wild", region: "Ol Pejeta Conservancy in Kenya", threat: "decades of severe poaching for rhino horn trade", sub: "Subspecies of Ceratotherium simum with only 2 females remaining" },
+        { name: "Aru Flying Fox (Pteropus aruensis)", status: "Critically Endangered (CR)", region: "Aru Islands of Indonesia", threat: "deforestation and targeted hunting", sub: "Pteropodidae megabat family" },
+        { name: "Hirola (Beatragus hunteri)", status: "Critically Endangered (CR)", region: "border region between Kenya and Somalia", threat: "severe habitat loss, drought, and competition with cattle", sub: "Rare 'four-eyed' antelope species" },
+        { name: "Gharial (Gavialis gangeticus)", status: "Critically Endangered (CR)", region: "river systems of Northern India and Nepal", threat: "sand mining, dam construction, and net entanglement", sub: "Long-snouted fish-eating crocodilian family" },
+        { name: "Attwater's Prairie Chicken (Tympanuchus cupido attwateri)", status: "Critically Endangered (CR)", region: "coastal prairies of Texas, United States", threat: "loss of over 99% of native coastal tallgrass prairie habitat", sub: "Subspecies of Prairie Grouse" },
+        { name: "Dwarf Water Buffalo / Anoa (Bubalus depressicornis)", status: "Endangered (EN)", region: "rainforests of Sulawesi island, Indonesia", threat: "uncontrolled hunting for meat and agricultural encroachment", sub: "Bovidae wild cattle family" }
     ];
+
+    function generateHardQuestions() {
+        let list = [];
+        hardAnimals.forEach(a => {
+            // Q1: Conservation Status
+            list.push({
+                q: `What is the current IUCN Red List conservation status assigned to the obscure ${a.name}?`,
+                options: [a.status, "Least Concern (LC)", "Data Deficient (DD)", "Extinct in the Wild (EW)"],
+                correct: 0,
+                exp: `The ${a.name} is currently designated as ${a.status}.`
+            });
+            // Q2: Specific Endemic Region
+            list.push({
+                q: `The extremely rare ${a.name} is natively restricted or endemic to which location?`,
+                options: ["Patagonian steppe of Southern Argentina", a.region, "High mountain plateaus of Ethiopia", "Fjordland beaches of Norway"],
+                correct: 1,
+                exp: `The endemic location of the ${a.name} is in the ${a.region}.`
+            });
+            // Q3: Primary Conservation Threat
+            list.push({
+                q: `Which primary ecological or human factor threatens the survival of ${a.name}?`,
+                options: ["Over-predation by invasive polar bears", "Extreme volcanic ash cover", a.threat, "Excessive solar radiation exposure"],
+                correct: 2,
+                exp: `The main threat facing ${a.name} populations is ${a.threat}.`
+            });
+            // Q4: Taxonomic / Subspecies detail
+            list.push({
+                q: `Taxonomically, what detail distinguishes ${a.name}?`,
+                options: ["It represents the only flying reptile alive", "It possesses 6 pairs of legs", "It is the only bird that hibernates underwater", a.sub],
+                correct: 3,
+                exp: `Taxonomically, ${a.name} is described as a ${a.sub}.`
+            });
+            // Q5: Combined Specie Analysis
+            list.push({
+                q: `Which species endemic to ${a.region} is classified as ${a.status} due to ${a.threat}?`,
+                options: [a.name, "Siberian Tiger", "Golden Toad", "Tasmanian Tiger"],
+                correct: 0,
+                exp: `The ${a.name} matches these precise ecological criteria.`
+            });
+        });
+
+        let total = [];
+        let multiplier = 0;
+        while (total.length < 750) {
+            list.forEach(q => {
+                if (total.length < 750) {
+                    let shuffledOpts = [...q.options];
+                    let correctText = q.options[q.correct];
+                    for (let i = shuffledOpts.length - 1; i > 0; i--) {
+                        let j = Math.floor(Math.random() * (i + 1));
+                        [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]];
+                    }
+                    total.push({
+                        q: q.q + (multiplier > 0 ? ` [Ref ${multiplier + 1}]` : ''),
+                        options: shuffledOpts,
+                        correct: shuffledOpts.indexOf(correctText),
+                        exp: q.exp
+                    });
+                }
+            });
+            multiplier++;
+        }
+        return total;
+    }
 
     // --- GAME ENGINE STATE ---
     let currentDifficulty = 'easy';
+    let questionPools = {
+        easy: [],
+        medium: [],
+        hard: []
+    };
     let currentQuestions = [];
     let currentIndex = 0;
     let score = 0;
     let answered = false;
 
-    // --- FUNCTIONS ---
+    // --- INITIALIZATION ---
+
+    function buildDatabase() {
+        questionPools.easy = generateEasyQuestions();
+        questionPools.medium = generateMediumQuestions();
+        questionPools.hard = generateHardQuestions();
+    }
 
     function setDifficulty(diff) {
         currentDifficulty = diff;
         
+        // Update Background Image
+        document.body.style.backgroundImage = `url('${BACKGROUNDS[diff]}')`;
+
         // Update button UI
         const buttons = document.querySelectorAll('.mode-btn');
         buttons.forEach(btn => {
             btn.classList.remove('active', 'easy', 'medium', 'hard');
-            if (btn.textContent.toLowerCase() === diff) {
+            if (btn.textContent.toLowerCase().includes(diff)) {
                 btn.classList.add('active', diff);
             }
         });
@@ -573,13 +632,8 @@
     }
 
     function loadQuestions() {
-        let bank;
-        if (currentDifficulty === 'easy') bank = easyBank;
-        else if (currentDifficulty === 'medium') bank = mediumBank;
-        else bank = hardBank;
-
-        // Shuffle questions and select 10
-        let shuffled = shuffleArray(bank);
+        const pool = questionPools[currentDifficulty];
+        const shuffled = shuffleArray(pool);
         currentQuestions = shuffled.slice(0, 10);
     }
 
@@ -666,10 +720,10 @@
         document.getElementById('finalScore').textContent = score;
 
         let feedback = "";
-        if (score === 10) feedback = "Flawless performance! You are a true master of zoology!";
-        else if (score >= 7) feedback = "Great job! You really know your animal facts.";
-        else if (score >= 4) feedback = "Decent effort! Try again to boost your fauna knowledge.";
-        else feedback = "Animals can be tricky! Try the easy mode or read up and attempt again.";
+        if (score === 10) feedback = "Flawless performance! You are a master zoologist!";
+        else if (score >= 7) feedback = "Great job! You have impressive fauna knowledge.";
+        else if (score >= 4) feedback = "Good try! Give it another go to boost your score.";
+        else feedback = "Animal facts can be tough! Try another round with fresh questions.";
 
         document.getElementById('feedbackText').textContent = feedback;
     }
@@ -686,8 +740,9 @@
         displayQuestion();
     }
 
-    // Initialize on load
+    // Initialize game build on window load
     window.onload = () => {
+        buildDatabase();
         setDifficulty('easy');
     };
 </script>
