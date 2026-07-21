@@ -273,7 +273,7 @@
 <body>
 
 <div class="container">
-    <header>
+    header>
         <h1>Fauna Discovery</h1>
         <p class="subtitle">Procedural Animal Kingdom Quiz Engine</p>
     </header>
@@ -326,277 +326,261 @@
         hard: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1920&q=80'   // African Savannah
     };
 
-    // --- PROCEDURAL QUESTION GENERATORS ---
+    // --- ANIMAL DATA DEFINITIONS ---
 
-    // 1. EASY DATABASE (750 UNIQUE QUESTIONS GENERATOR)
     const easyAnimals = [
-        { name: "Lion", habitat: "African savannas and grasslands", food: "Zebras, wildebeests, and antelopes", fact: "their roar can be heard up to 5 miles away", baby: "cub", group: "pride", sound: "roar" },
-        { name: "Giant Panda", habitat: "bamboo forests of central China", food: "bamboo shoots and leaves", fact: "they spend up to 12 hours a day eating bamboo", baby: "cub", group: "embarrassment", sound: "bleat" },
-        { name: "Cheetah", habitat: "open grasslands and savannas of Africa", food: "gazelles and hares", fact: "they can accelerate from 0 to 60 mph in 3 seconds", baby: "cub", group: "coalition", sound: "chirp" },
-        { name: "Kangaroo", habitat: "Australian scrublands and forests", food: "grasses, herbs, and shrubs", fact: "they use their powerful tail for balance while jumping", baby: "joey", group: "mob", sound: "chuff" },
-        { name: "Polar Bear", habitat: "arctic sea ice across the Frozen North", food: "seals and marine animals", fact: "their skin under their white fur is completely black", baby: "cub", group: "sleuth", sound: "growl" },
-        { name: "Emperor Penguin", habitat: "icy sea ice and coasts of Antarctica", food: "fish, krill, and squid", fact: "males huddle together to incubate eggs during icy winters", baby: "chick", group: "waddle", sound: "squawk" },
-        { name: "Bottlenose Dolphin", habitat: "warm temperate and tropical oceans worldwide", food: "fish and squid", fact: "they use echolocation and sleep with half their brain awake", baby: "calf", group: "pod", sound: "whistle" },
-        { name: "African Elephant", habitat: "African savannas, marshes, and forests", food: "grasses, roots, fruit, and bark", fact: "their large ears help radiate excess heat away from their body", baby: "calf", group: "herd", sound: "trumpet" },
-        { name: "Giraffe", habitat: "African open woodlands and grasslands", food: "acacia leaves and tree shoots", fact: "their tongue can be up to 20 inches long and dark purple", baby: "calf", group: "tower", sound: "hum" },
-        { name: "Koala", habitat: "eucalyptus forests of eastern Australia", food: "eucalyptus leaves exclusively", fact: "they can sleep up to 18 to 22 hours per day", baby: "joey", group: "colony", sound: "bellow" },
-        { name: "Chameleon", habitat: "warm tropical rainforests and deserts", food: "insects and small invertebrates", fact: "their eyes can move independently of each other", baby: "hatchling", group: "camp", sound: "hiss" },
-        { name: "Bald Eagle", habitat: "lakes, rivers, and coastal areas across North America", food: "fish, waterfowl, and small mammals", fact: "they build the largest tree nests of any bird species", baby: "eaglet", group: "convocation", sound: "screech" },
-        { name: "Red Fox", habitat: "forests, grasslands, and suburban areas worldwide", food: "rodents, berries, and frogs", fact: "they use the Earth's magnetic field to hunt hidden prey", baby: "kit", group: "skulk", sound: "bark" },
-        { name: "Hippopotamus", habitat: "rivers and swamps of Sub-Saharan Africa", food: "grasses grazing at night", fact: "they secrete a natural reddish sunscreen oil onto their skin", baby: "calf", group: "bloat", sound: "grunt" },
-        { name: "Honey Bee", habitat: "flowery gardens, meadows, and orchards worldwide", food: "nectar and pollen from flowers", fact: "they perform a 'waggle dance' to share flower locations", baby: "larva", group: "swarm", sound: "buzz" }
+        { id: "lion", name: "Lion", habitat: "African savannas and grasslands", food: "Zebras, wildebeests, and antelopes", fact: "their roar can be heard up to 5 miles away", baby: "cub", group: "pride", sound: "roar" },
+        { id: "panda", name: "Giant Panda", habitat: "bamboo forests of central China", food: "bamboo shoots and leaves", fact: "they spend up to 12 hours a day eating bamboo", baby: "cub", group: "embarrassment", sound: "bleat" },
+        { id: "cheetah", name: "Cheetah", habitat: "open grasslands and savannas of Africa", food: "gazelles and hares", fact: "they can accelerate from 0 to 60 mph in 3 seconds", baby: "cub", group: "coalition", sound: "chirp" },
+        { id: "kangaroo", name: "Kangaroo", habitat: "Australian scrublands and forests", food: "grasses, herbs, and shrubs", fact: "they use their powerful tail for balance while jumping", baby: "joey", group: "mob", sound: "chuff" },
+        { id: "polar_bear", name: "Polar Bear", habitat: "arctic sea ice across the Frozen North", food: "seals and marine animals", fact: "their skin under their white fur is completely black", baby: "cub", group: "sleuth", sound: "growl" },
+        { id: "penguin", name: "Emperor Penguin", habitat: "icy sea ice and coasts of Antarctica", food: "fish, krill, and squid", fact: "males huddle together to incubate eggs during icy winters", baby: "chick", group: "waddle", sound: "squawk" },
+        { id: "dolphin", name: "Bottlenose Dolphin", habitat: "warm temperate and tropical oceans worldwide", food: "fish and squid", fact: "they use echolocation and sleep with half their brain awake", baby: "calf", group: "pod", sound: "whistle" },
+        { id: "elephant", name: "African Elephant", habitat: "African savannas, marshes, and forests", food: "grasses, roots, fruit, and bark", fact: "their large ears help radiate excess heat away from their body", baby: "calf", group: "herd", sound: "trumpet" },
+        { id: "giraffe", name: "Giraffe", habitat: "African open woodlands and grasslands", food: "acacia leaves and tree shoots", fact: "their tongue can be up to 20 inches long and dark purple", baby: "calf", group: "tower", sound: "hum" },
+        { id: "koala", name: "Koala", habitat: "eucalyptus forests of eastern Australia", food: "eucalyptus leaves exclusively", fact: "they can sleep up to 18 to 22 hours per day", baby: "joey", group: "colony", sound: "bellow" },
+        { id: "chameleon", name: "Chameleon", habitat: "warm tropical rainforests and deserts", food: "insects and small invertebrates", fact: "their eyes can move independently of each other", baby: "hatchling", group: "camp", sound: "hiss" },
+        { id: "bald_eagle", name: "Bald Eagle", habitat: "lakes, rivers, and coastal areas across North America", food: "fish, waterfowl, and small mammals", fact: "they build the largest tree nests of any bird species", baby: "eaglet", group: "convocation", sound: "screech" },
+        { id: "red_fox", name: "Red Fox", habitat: "forests, grasslands, and suburban areas worldwide", food: "rodents, berries, and frogs", fact: "they use the Earth's magnetic field to hunt hidden prey", baby: "kit", group: "skulk", sound: "bark" },
+        { id: "hippo", name: "Hippopotamus", habitat: "rivers and swamps of Sub-Saharan Africa", food: "grasses grazing at night", fact: "they secrete a natural reddish sunscreen oil onto their skin", baby: "calf", group: "bloat", sound: "grunt" },
+        { id: "honey_bee", name: "Honey Bee", habitat: "flowery gardens, meadows, and orchards worldwide", food: "nectar and pollen from flowers", fact: "they perform a 'waggle dance' to share flower locations", baby: "larva", group: "swarm", sound: "buzz" },
+        { id: "sloth", name: "Three-Toed Sloth", habitat: "canopy of Central and South American rainforests", food: "leaves, shoots, and fruit", fact: "they move so slowly that algae grows on their fur, serving as camouflage", baby: "pup", group: "snuggle", sound: "squeak" },
+        { id: "zebra", name: "Plains Zebra", habitat: "grasslands and savannas of eastern and southern Africa", food: "harsh, fibrous grasses", fact: "no two zebras have the exact same stripe pattern", baby: "foal", group: "dazzle", sound: "bark" },
+        { id: "beaver", name: "North American Beaver", habitat: "rivers, streams, lakes, and ponds of North America", food: "tree bark, twigs, and aquatic plants", fact: "their teeth never stop growing and contain iron, giving them an orange color", baby: "kit", group: "colony", sound: "slap" },
+        { id: "owl", name: "Great Horned Owl", habitat: "forests, deserts, and urban areas across the Americas", food: "small mammals, birds, and reptiles", fact: "their feathers are designed for completely silent flight", baby: "owlet", group: "parliament", sound: "hoot" },
+        { id: "flamingo", name: "American Flamingo", habitat: "shallow saltwater lagoons and mudflats", food: "algae, small seeds, and brine shrimp", fact: "their bright pink color comes from carotenoid pigments in the food they eat", baby: "chick", group: "flamboyance", sound: "honk" }
     ];
 
-    function generateEasyQuestions() {
-        let list = [];
-        easyAnimals.forEach(a => {
-            // Q1: Habitat
-            list.push({
+    const mediumAnimals = [
+        { id: "okapi", name: "Okapi", trait: "striped legs resembling a zebra", relation: "Giraffe family", location: "dense rainforests of Democratic Republic of Congo", adapt: "long prehensile blue tongue to strip leaves" },
+        { id: "axolotl", name: "Axolotl", trait: "feathery external gills and permanent larval state", relation: "Tiger Salamander family", location: "Lake Xochimilco in Mexico", adapt: "ability to fully regenerate entire limbs and internal heart tissue" },
+        { id: "pangolin", name: "Pangolin", trait: "overlapping defensive scales made of keratin", relation: "Mammalian order Pholidota", location: "tropical regions of Africa and Asia", adapt: "rolling into an impenetrable ball when threatened" },
+        { id: "fossa", name: "Fossa", trait: "slender cat-like body with semi-retractable claws", relation: "Madagascar mongoose relative", location: "forested areas of Madagascar", adapt: "flexible ankles allowing down-trunk tree climbing" },
+        { id: "archerfish", name: "Archerfish", trait: "flattened body with large eyes suited for refraction", relation: "Toxotidae family", location: "mangrove swamps of Southeast Asia and Australia", adapt: "shooting water droplets to knock down overhead resting insects" },
+        { id: "pistol_shrimp", name: "Pistol Shrimp", trait: "asymmetrical oversized snapping claw", relation: "Alpheidae family", location: "shallow tropical ocean reefs worldwide", adapt: "creating cavitation shockwave bubbles hitting temperatures near the sun" },
+        { id: "hoatzin", name: "Hoatzin", trait: "wing claws on chicks used to climb trees", relation: "Opisthocomiformes bird order", location: "swamps of the Amazon and Orinoco basins", adapt: "foregut leaf fermentation causing a manure scent" },
+        { id: "naked_mole_rat", name: "Naked Mole Rat", trait: "wrinkled hairless pink skin and prominent incisors", relation: "Eusocial rodent species", location: "underground burrows of East Africa", adapt: "switching to fructose metabolism in near-zero oxygen environments" },
+        { id: "lyrebird", name: "Lyrebird", trait: "elaborate tail feathers mimicking a lyre instrument", relation: "Passerine songbird family", location: "rainforests of Eastern Australia", adapt: "near-perfect acoustic mimicry of natural and artificial sounds" },
+        { id: "thorny_devil", name: "Thorny Devil", trait: "conical spiky scales covering its body", relation: "Agamid lizard family", location: "arid interior scrub deserts of Australia", adapt: "skin capillary channels drawing ground moisture directly into its mouth" },
+        { id: "capybara", name: "Capybara", trait: "webbed feet and barrel-shaped body", relation: "Caviidae rodent family", location: "savannas and dense forests of South America near water", adapt: "sleeping underwater with only nostrils exposed" },
+        { id: "electric_eel", name: "Electric Eel", trait: "elongated cylindrical scaleless body", relation: "Knifefish family", location: "freshwater basins of Amazon and Orinoco rivers", adapt: "specialized electrocyte organs generating up to 600 volts" },
+        { id: "wombat", name: "Wombat", trait: "sturdy muscular body with backward-facing pouch", relation: "Vombatidae marsupial family", location: "forested mountainous regions of Southeastern Australia", adapt: "excreting cube-shaped droppings to mark territory boundaries" },
+        { id: "cassowary", name: "Cassowary", trait: "helmeted casque on head and dagger-like toe claws", relation: "Ratite flightless bird family", location: "tropical rainforests of New Guinea and Northeastern Australia", adapt: "leaping 7 feet into the air and delivering powerful slashing kicks" },
+        { id: "binturong", name: "Binturong (Bearcat)", trait: "thick coarse black fur smelling like hot buttered popcorn", relation: "Viverridae family", location: "dense canopy forests of South and Southeast Asia", adapt: "fully prehensile tail functioning as a fifth limb" },
+        { id: "platypus", name: "Platypus", trait: "duck-like bill, beaver-like tail, and webbed feet", relation: "Monotreme (egg-laying mammal) family", location: "eastern Australian freshwater streams and rivers", adapt: "electroreception in its bill to detect prey in murky water" },
+        { id: "serval", name: "Serval", trait: "longest legs and largest ears relative to body size of any cat", relation: "Small wild cat family (Felidae)", location: "sub-Saharan African grasslands and wetlands", adapt: "leaping up to 9 feet into the air to pounce on birds and rodents" },
+        { id: "saiga", name: "Saiga Antelope", trait: "over-sized flexible inflatable nose structure", relation: "Bovidae antelope family", location: "dry steppes of Kazakhstan and Mongolia", adapt: "filtering out summer dust and warming freezing winter air in its nostrils" },
+        { id: "tarsier", name: "Tarsier", trait: "eyes larger than its brain that cannot rotate in sockets", relation: "Tarsiidae primate family", location: "islands of Southeast Asia (Philippines, Indonesia)", adapt: "rotating its neck 180 degrees in both directions to spot insects" },
+        { id: "narwhal", name: "Narwhal", trait: "long spiraled ivory tusk extending from upper lip", relation: "Monodontidae whale family", location: "deep arctic waters of Canada, Greenland, and Russia", adapt: "tusk containing millions of nerve endings used as a sensory organ" }
+    ];
+
+    const hardAnimals = [
+        { id: "vaquita", name: "Vaquita (Phocoena sinus)", status: "Critically Endangered (CR)", region: "northern tip of the Gulf of California, Mexico", threat: "accidental entanglement in illegal gillnets set for totoaba fish", sub: "Porpoise family (Phocoenidae)" },
+        { id: "ili_pika", name: "Ili Pika (Ochotona iliensis)", status: "Endangered (EN)", region: "bare cliff faces of Tian Shan mountains in Xinjiang, China", threat: "climate change warming alpine habitats and livestock grazing", sub: "Lagomorpha order" },
+        { id: "kakapo", name: "Kakapo (Strigops habroptilus)", status: "Critically Endangered (CR)", region: "predator-free offshore islands of New Zealand", threat: "introduced mammalian predators like stoats and cats", sub: "Strigopidae family (flightless lek-mating parrot)" },
+        { id: "solenodon", name: "Solenodon (Solenodon paradoxus)", status: "Endangered (EN)", region: "island forests of Hispaniola and Cuba", threat: "habitat fragmentation and introduced dogs/cats", sub: "Primitive venomous mammal delivering toxin via lower incisors" },
+        { id: "stick_insect", name: "Lord Howe Island Stick Insect (Dryococelus australis)", status: "Critically Endangered (CR)", region: "Ball's Pyramid volcanic stack in the Pacific Ocean", threat: "invasive Black Rats introduced by historical shipwrecks", sub: "Phasmatodea order ('Tree Lobster')" },
+        { id: "kakawahie", name: "Kakawahie (Paroreomyza flammea)", status: "Extinct (EX)", region: "island of Molokai, Hawaii", threat: "avian malaria spread by invasive mosquitoes and deforestation", sub: "Hawaiian honeycreeper subspecies" },
+        { id: "beaked_whale", name: "Cuvier's Beaked Whale (Ziphius cavirostris)", status: "Least Concern (LC)", region: "deep oceanic waters across temperate and tropical basins", threat: "anthropogenic naval sonar causing decompression sickness", sub: "Deepest-diving mammal reaching depths of 2,992 meters" },
+        { id: "tree_pangolin", name: "Tree Pangolin (Phataginus tricuspis)", status: "Endangered (EN)", region: "tropical rainforest belts of Central and West Africa", threat: "poaching for illegal international scale traffic and bushmeat", sub: "Pholidota order" },
+        { id: "white_rhino", name: "Northern White Rhinoceros (Ceratotherium simum cottoni)", status: "Critically Endangered / Extinct in Wild", region: "Ol Pejeta Conservancy in Kenya", threat: "decades of severe poaching for rhino horn trade", sub: "Subspecies of Ceratotherium simum with only 2 females remaining" },
+        { id: "aru_bat", name: "Aru Flying Fox (Pteropus aruensis)", status: "Critically Endangered (CR)", region: "Aru Islands of Indonesia", threat: "deforestation and targeted hunting", sub: "Pteropodidae megabat family" },
+        { id: "hirola", name: "Hirola (Beatragus hunteri)", status: "Critically Endangered (CR)", region: "border region between Kenya and Somalia", threat: "severe habitat loss, drought, and competition with cattle", sub: "Rare 'four-eyed' antelope species" },
+        { id: "gharial", name: "Gharial (Gavialis gangeticus)", status: "Critically Endangered (CR)", region: "river systems of Northern India and Nepal", threat: "sand mining, dam construction, and net entanglement", sub: "Long-snouted fish-eating crocodilian family" },
+        { id: "prairie_chicken", name: "Attwater's Prairie Chicken (Tympanuchus cupido attwateri)", status: "Critically Endangered (CR)", region: "coastal prairies of Texas, United States", threat: "loss of over 99% of native coastal tallgrass prairie habitat", sub: "Subspecies of Prairie Grouse" },
+        { id: "anoa", name: "Dwarf Water Buffalo / Anoa (Bubalus depressicornis)", status: "Endangered (EN)", region: "rainforests of Sulawesi island, Indonesia", threat: "uncontrolled hunting for meat and agricultural encroachment", sub: "Bovidae wild cattle family" },
+        { id: "kagu", name: "Kagu (Rhynochetos jubatus)", status: "Endangered (EN)", region: "dense mountain forests of New Caledonia", threat: "predation by introduced free-ranging dogs and feral pigs", sub: "Flightless grey bird with ghost-like call in order Gruiformes" },
+        { id: "amur_leopard", name: "Amur Leopard (Panthera pardus orientalis)", status: "Critically Endangered (CR)", region: "border region between Far East Russia and Northeastern China", threat: "poaching for fur, prey depletion, and forest fires", sub: "Rare northernmost leopard subspecies" },
+        { id: "pygmy_sloth", name: "Pygmy Three-Toed Sloth (Bradypus pygmaeus)", status: "Critically Endangered (CR)", region: "Isla Escudo de Veraguas, Panama", threat: "habitat destruction of tiny mangrove forests and illegal logging", sub: "Dwarf island sloth endemic to a single 4.3 sq km island" },
+        { id: "saola", name: "Saola (Pseudoryx nghetinhensis)", status: "Critically Endangered (CR)", region: "Annamite Range forest border between Vietnam and Laos", threat: "commercial snaring and habitat fragmentation", sub: "Spindlehorn bovid known as the 'Asian Unicorn' discovered in 1992" },
+        { id: "tuatara", name: "Tuatara (Sphenodon punctatus)", status: "Vulnerable (VU)", region: "32 offshore islands of New Zealand", threat: "historical nest destruction by invasive Polynesian rats (kiore)", sub: "Sole surviving member of order Rhynchocephalia dating back 200 million years" },
+        { id: "javan_rhino", name: "Javan Rhinoceros (Rhinoceros sondaicus)", status: "Critically Endangered (CR)", region: "Ujung Kulon National Park at western tip of Java, Indonesia", threat: "extremely small population size vulnerable to natural disasters and disease", sub: "Single-horned rhino species with fewer than 80 living individuals" }
+    ];
+
+    // --- QUESTION POOL BUILDERS WITH ANIMAL ID TRACKING ---
+
+    function buildEasyQuestionPoolForAnimal(a) {
+        return [
+            {
+                animalId: a.id,
                 q: `In which natural environment do wild ${a.name}s primarily live?`,
                 options: [a.habitat, "Deep arctic tundra ice caves", "Dense subterranean underground burrows", "High altitude mountain crags"],
                 correct: 0,
                 exp: `${a.name}s are natively adapted to live in ${a.habitat}.`
-            });
-            // Q2: Diet
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `What constitutes the main primary diet for a wild ${a.name}?`,
                 options: ["Pure tree bark and moss", a.food, "Deep sea kelp and coral", "Insects scraped from rocks"],
                 correct: 1,
                 exp: `The primary food source for a ${a.name} consists of ${a.food}.`
-            });
-            // Q3: Fun Fact
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `Which notable behavioral trait or physical fact is famous regarding the ${a.name}?`,
                 options: ["They change their skin color to blue when scared", "They produce light through bioluminescence", a.fact.charAt(0).toUpperCase() + a.fact.slice(1), "They do not need to drink water for 10 years"],
                 correct: 2,
                 exp: `A famous fact about the ${a.name} is that ${a.fact}.`
-            });
-            // Q4: Baby Name
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `What is a young or offspring of a ${a.name} called?`,
                 options: ["Gosling", "Fry", "Pupa", a.baby.charAt(0).toUpperCase() + a.baby.slice(1)],
                 correct: 3,
                 exp: `A baby or young offspring of a ${a.name} is officially referred to as a ${a.baby}.`
-            });
-            // Q5: Group Name
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `What is the collective noun used for a group of ${a.name}s?`,
                 options: [a.group.charAt(0).toUpperCase() + a.group.slice(1), "Flock", "Squadron", "Gaggle"],
                 correct: 0,
                 exp: `A gathering or group of ${a.name}s is officially called a ${a.group}.`
-            });
-        });
-
-        // Expand combinations procedurally to hit exact 750 count
-        let total = [];
-        let multiplier = 0;
-        while (total.length < 750) {
-            list.forEach(q => {
-                if (total.length < 750) {
-                    let shuffledOpts = [...q.options];
-                    let correctText = q.options[q.correct];
-                    // Shuffle options
-                    for (let i = shuffledOpts.length - 1; i > 0; i--) {
-                        let j = Math.floor(Math.random() * (i + 1));
-                        [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]];
-                    }
-                    total.push({
-                        q: q.q + (multiplier > 0 ? ` (Variation ${multiplier + 1})` : ''),
-                        options: shuffledOpts,
-                        correct: shuffledOpts.indexOf(correctText),
-                        exp: q.exp
-                    });
-                }
-            });
-            multiplier++;
-        }
-        return total;
+            }
+        ];
     }
 
-    // 2. MEDIUM DATABASE (750 UNIQUE QUESTIONS GENERATOR)
-    const mediumAnimals = [
-        { name: "Okapi", trait: "striped legs resembling a zebra", relation: "Giraffe family", location: "dense rainforests of Democratic Republic of Congo", adapt: "long prehensile blue tongue to strip leaves" },
-        { name: "Axolotl", trait: "feathery external gills and permanent larval state", relation: "Tiger Salamander family", location: "Lake Xochimilco in Mexico", adapt: "ability to fully regenerate entire limbs and internal heart tissue" },
-        { name: "Pangolin", trait: "overlapping defensive scales made of keratin", relation: "Mammalian order Pholidota", location: "tropical regions of Africa and Asia", adapt: "rolling into an impenetrable ball when threatened" },
-        { name: "Fossa", trait: "slender cat-like body with semi-retractable claws", relation: "Madagascar mongoose relative", location: "forested areas of Madagascar", adapt: "flexible ankles allowing down-trunk tree climbing" },
-        { name: "Archerfish", trait: "flattened body with large eyes suited for refraction", relation: "Toxotidae family", location: "mangrove swamps of Southeast Asia and Australia", adapt: "shooting water droplets to knock down overhead resting insects" },
-        { name: "Pistol Shrimp", trait: "asymmetrical oversized snapping claw", relation: "Alpheidae family", location: "shallow tropical ocean reefs worldwide", adapt: "creating cavitation shockwave bubbles hitting temperatures near the sun" },
-        { name: "Hoatzin", trait: "wing claws on chicks used to climb trees", relation: "Opisthocomiformes bird order", location: "swamps of the Amazon and Orinoco basins", adapt: "foregut leaf fermentation causing a manure scent" },
-        { name: "Naked Mole Rat", trait: "wrinkled hairless pink skin and prominent incisors", relation: "Eusocial rodent species", location: "underground burrows of East Africa", adapt: "switching to fructose metabolism in near-zero oxygen environments" },
-        { name: "Lyrebird", trait: "elaborate tail feathers mimicking a lyre instrument", relation: "Passerine songbird family", location: "rainforests of Eastern Australia", adapt: "near-perfect acoustic mimicry of natural and artificial sounds" },
-        { name: "Thorny Devil", trait: "conical spiky scales covering its body", relation: "Agamid lizard family", location: "arid interior scrub deserts of Australia", adapt: "skin capillary channels drawing ground moisture directly into its mouth" },
-        { name: "Capybara", trait: "webbed feet and barrel-shaped body", relation: "Caviidae rodent family", location: "savannas and dense forests of South America near water", adapt: "sleeping underwater with only nostrils exposed" },
-        { name: "Electric Eel", trait: "elongated cylindrical scaleless body", relation: "Knifefish family", location: "freshwater basins of Amazon and Orinoco rivers", adapt: "specialized electrocyte organs generating up to 600 volts" },
-        { name: "Wombat", trait: "sturdy muscular body with backward-facing pouch", relation: "Vombatidae marsupial family", location: "forested mountainous regions of Southeastern Australia", adapt: "excreting cube-shaped droppings to mark territory boundaries" },
-        { name: "Cassowary", trait: "helmeted casque on head and dagger-like toe claws", relation: "Ratite flightless bird family", location: "tropical rainforests of New Guinea and Northeastern Australia", adapt: "leaping 7 feet into the air and delivering powerful slashing kicks" },
-        { name: "Binturong (Bearcat)", trait: "thick coarse black fur smelling like hot buttered popcorn", relation: "Viverridae family", location: "dense canopy forests of South and Southeast Asia", adapt: "fully prehensile tail functioning as a fifth limb" }
-    ];
-
-    function generateMediumQuestions() {
-        let list = [];
-        mediumAnimals.forEach(a => {
-            // Q1: Relation/Taxonomy
-            list.push({
+    function buildMediumQuestionPoolForAnimal(a) {
+        return [
+            {
+                animalId: a.id,
                 q: `The ${a.name}, known for its ${a.trait}, belongs to which taxonomic group or relation?`,
                 options: [a.relation, "Marsupial carnivore group", "Flightless waterfowl order", "Subterranean reptile family"],
                 correct: 0,
                 exp: `The ${a.name} is classified under the ${a.relation}.`
-            });
-            // Q2: Location
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `In which geographical habitat is the ${a.name} natively found?`,
                 options: ["Cold tundra plains of Northern Canada", a.location, "Alpine snow peaks of New Zealand", "Desert dunes of the Sahara"],
                 correct: 1,
                 exp: `The native distribution of the ${a.name} is in the ${a.location}.`
-            });
-            // Q3: Special Adaptation
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `Which unique physiological or behavioral adaptation is specialized in the ${a.name}?`,
                 options: ["Echolocating using nasal click vibrations", "Photosynthesizing energy using skin algae", a.adapt.charAt(0).toUpperCase() + a.adapt.slice(1), "Hibernating underwater for 3 years"],
                 correct: 2,
                 exp: `The ${a.name} is famous for ${a.adapt}.`
-            });
-            // Q4: Physical Trait Identification
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `Which animal is distinctive for featuring ${a.trait}?`,
                 options: ["Golden Snub-nosed Monkey", "Japanese Giant Salamander", "Blobfish", a.name],
                 correct: 3,
                 exp: `The ${a.name} is well-documented for its ${a.trait}.`
-            });
-            // Q5: Habitat Habit
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `How does the ${a.name} primarily interact with its environment in the ${a.location}?`,
                 options: [`By ${a.adapt}`, "By weaving underwater air bubble silks", "By forming subterranean multi-mile ant colonies", "By migrating thousands of miles without rest"],
                 correct: 0,
                 exp: `In its natural environment, the ${a.name} survives by ${a.adapt}.`
-            });
-        });
-
-        let total = [];
-        let multiplier = 0;
-        while (total.length < 750) {
-            list.forEach(q => {
-                if (total.length < 750) {
-                    let shuffledOpts = [...q.options];
-                    let correctText = q.options[q.correct];
-                    for (let i = shuffledOpts.length - 1; i > 0; i--) {
-                        let j = Math.floor(Math.random() * (i + 1));
-                        [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]];
-                    }
-                    total.push({
-                        q: q.q + (multiplier > 0 ? ` (Set ${multiplier + 1})` : ''),
-                        options: shuffledOpts,
-                        correct: shuffledOpts.indexOf(correctText),
-                        exp: q.exp
-                    });
-                }
-            });
-            multiplier++;
-        }
-        return total;
+            }
+        ];
     }
 
-    // 3. HARD DATABASE (750 UNIQUE QUESTIONS GENERATOR)
-    const hardAnimals = [
-        { name: "Vaquita (Phocoena sinus)", status: "Critically Endangered (CR)", region: "northern tip of the Gulf of California, Mexico", threat: "accidental entanglement in illegal gillnets set for totoaba fish", sub: "Porpoise family (Phocoenidae)" },
-        { name: "Ili Pika (Ochotona iliensis)", status: "Endangered (EN)", region: "bare cliff faces of Tian Shan mountains in Xinjiang, China", threat: "climate change warming alpine habitats and livestock grazing", sub: "Lagomorpha order" },
-        { name: "Kakapo (Strigops habroptilus)", status: "Critically Endangered (CR)", region: "predator-free offshore islands of New Zealand", threat: "introduced mammalian predators like stoats and cats", sub: "Strigopidae family (flightless lek-mating parrot)" },
-        { name: "Saiga Antelope (Saiga tatarica)", status: "Near Threatened (NT)", region: "dry steppes of Kazakhstan, Uzbekistan, and Russia", threat: "mass disease outbreaks caused by Pasteurella multocida and poaching", sub: "Artiodactyla order" },
-        { name: "Solenodon (Solenodon paradoxus)", status: "Endangered (EN)", region: "island forests of Hispaniola and Cuba", threat: "habitat fragmentation and introduced dogs/cats", sub: "Primitive venomous mammal delivering toxin via lower incisors" },
-        { name: "Lord Howe Island Stick Insect (Dryococelus australis)", status: "Critically Endangered (CR)", region: "Ball's Pyramid volcanic stack in the Pacific Ocean", threat: "invasive Black Rats introduced by historical shipwrecks", sub: "Phasmatodea order ('Tree Lobster')" },
-        { name: "Kakawahie (Paroreomyza flammea)", status: "Extinct (EX)", region: "island of Molokai, Hawaii", threat: "avian malaria spread by invasive mosquitoes and deforestation", sub: "Hawaiian honeycreeper subspecies" },
-        { name: "Cuvier's Beaked Whale (Ziphius cavirostris)", status: "Least Concern (LC)", region: "deep oceanic waters across temperate and tropical basins", threat: "anthropogenic naval sonar causing decompression sickness", sub: "Deepest-diving mammal reaching depths of 2,992 meters" },
-        { name: "Tree Pangolin (Phataginus tricuspis)", status: "Endangered (EN)", region: "tropical rainforest belts of Central and West Africa", threat: "poaching for illegal international scale traffic and bushmeat", sub: "Pholidota order" },
-        { name: "Northern White Rhinoceros (Ceratotherium simum cottoni)", status: "Critically Endangered / Extinct in Wild", region: "Ol Pejeta Conservancy in Kenya", threat: "decades of severe poaching for rhino horn trade", sub: "Subspecies of Ceratotherium simum with only 2 females remaining" },
-        { name: "Aru Flying Fox (Pteropus aruensis)", status: "Critically Endangered (CR)", region: "Aru Islands of Indonesia", threat: "deforestation and targeted hunting", sub: "Pteropodidae megabat family" },
-        { name: "Hirola (Beatragus hunteri)", status: "Critically Endangered (CR)", region: "border region between Kenya and Somalia", threat: "severe habitat loss, drought, and competition with cattle", sub: "Rare 'four-eyed' antelope species" },
-        { name: "Gharial (Gavialis gangeticus)", status: "Critically Endangered (CR)", region: "river systems of Northern India and Nepal", threat: "sand mining, dam construction, and net entanglement", sub: "Long-snouted fish-eating crocodilian family" },
-        { name: "Attwater's Prairie Chicken (Tympanuchus cupido attwateri)", status: "Critically Endangered (CR)", region: "coastal prairies of Texas, United States", threat: "loss of over 99% of native coastal tallgrass prairie habitat", sub: "Subspecies of Prairie Grouse" },
-        { name: "Dwarf Water Buffalo / Anoa (Bubalus depressicornis)", status: "Endangered (EN)", region: "rainforests of Sulawesi island, Indonesia", threat: "uncontrolled hunting for meat and agricultural encroachment", sub: "Bovidae wild cattle family" }
-    ];
-
-    function generateHardQuestions() {
-        let list = [];
-        hardAnimals.forEach(a => {
-            // Q1: Conservation Status
-            list.push({
+    function buildHardQuestionPoolForAnimal(a) {
+        return [
+            {
+                animalId: a.id,
                 q: `What is the current IUCN Red List conservation status assigned to the obscure ${a.name}?`,
                 options: [a.status, "Least Concern (LC)", "Data Deficient (DD)", "Extinct in the Wild (EW)"],
                 correct: 0,
                 exp: `The ${a.name} is currently designated as ${a.status}.`
-            });
-            // Q2: Specific Endemic Region
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `The extremely rare ${a.name} is natively restricted or endemic to which location?`,
                 options: ["Patagonian steppe of Southern Argentina", a.region, "High mountain plateaus of Ethiopia", "Fjordland beaches of Norway"],
                 correct: 1,
                 exp: `The endemic location of the ${a.name} is in the ${a.region}.`
-            });
-            // Q3: Primary Conservation Threat
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `Which primary ecological or human factor threatens the survival of ${a.name}?`,
                 options: ["Over-predation by invasive polar bears", "Extreme volcanic ash cover", a.threat, "Excessive solar radiation exposure"],
                 correct: 2,
                 exp: `The main threat facing ${a.name} populations is ${a.threat}.`
-            });
-            // Q4: Taxonomic / Subspecies detail
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `Taxonomically, what detail distinguishes ${a.name}?`,
                 options: ["It represents the only flying reptile alive", "It possesses 6 pairs of legs", "It is the only bird that hibernates underwater", a.sub],
                 correct: 3,
                 exp: `Taxonomically, ${a.name} is described as a ${a.sub}.`
-            });
-            // Q5: Combined Specie Analysis
-            list.push({
+            },
+            {
+                animalId: a.id,
                 q: `Which species endemic to ${a.region} is classified as ${a.status} due to ${a.threat}?`,
                 options: [a.name, "Siberian Tiger", "Golden Toad", "Tasmanian Tiger"],
                 correct: 0,
                 exp: `The ${a.name} matches these precise ecological criteria.`
-            });
-        });
-
-        let total = [];
-        let multiplier = 0;
-        while (total.length < 750) {
-            list.forEach(q => {
-                if (total.length < 750) {
-                    let shuffledOpts = [...q.options];
-                    let correctText = q.options[q.correct];
-                    for (let i = shuffledOpts.length - 1; i > 0; i--) {
-                        let j = Math.floor(Math.random() * (i + 1));
-                        [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]];
-                    }
-                    total.push({
-                        q: q.q + (multiplier > 0 ? ` [Ref ${multiplier + 1}]` : ''),
-                        options: shuffledOpts,
-                        correct: shuffledOpts.indexOf(correctText),
-                        exp: q.exp
-                    });
-                }
-            });
-            multiplier++;
-        }
-        return total;
+            }
+        ];
     }
 
     // --- GAME ENGINE STATE ---
     let currentDifficulty = 'easy';
-    let questionPools = {
-        easy: [],
-        medium: [],
-        hard: []
-    };
     let currentQuestions = [];
     let currentIndex = 0;
     let score = 0;
     let answered = false;
 
-    // --- INITIALIZATION ---
+    // Utility Shuffle
+    function shuffleArray(arr) {
+        let copy = [...arr];
+        for (let i = copy.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+    }
 
-    function buildDatabase() {
-        questionPools.easy = generateEasyQuestions();
-        questionPools.medium = generateMediumQuestions();
-        questionPools.hard = generateHardQuestions();
+    // --- SELECTION ENGINE (STRICT 1 QUESTION PER ANIMAL PER QUIZ) ---
+
+    function loadQuestions() {
+        let animalList, builderFunc;
+
+        if (currentDifficulty === 'easy') {
+            animalList = easyAnimals;
+            builderFunc = buildEasyQuestionPoolForAnimal;
+        } else if (currentDifficulty === 'medium') {
+            animalList = mediumAnimals;
+            builderFunc = buildMediumQuestionPoolForAnimal;
+        } else {
+            animalList = hardAnimals;
+            builderFunc = buildHardQuestionPoolForAnimal;
+        }
+
+        // 1. Pick 10 DISTINCT animals randomly
+        let shuffledAnimals = shuffleArray(animalList);
+        let selected10Animals = shuffledAnimals.slice(0, 10);
+
+        // 2. For EACH of the 10 animals, pick EXACTLY 1 random question
+        let quiz10Questions = [];
+        selected10Animals.forEach(animal => {
+            let animalQuestions = builderFunc(animal);
+            let chosenQ = animalQuestions[Math.floor(Math.random() * animalQuestions.length)];
+            
+            // Randomize options order for chosen question
+            let shuffledOpts = [...chosenQ.options];
+            let correctText = chosenQ.options[chosenQ.correct];
+            for (let i = shuffledOpts.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]];
+            }
+
+            quiz10Questions.push({
+                q: chosenQ.q,
+                options: shuffledOpts,
+                correct: shuffledOpts.indexOf(correctText),
+                exp: chosenQ.exp,
+                animalId: chosenQ.animalId
+            });
+        });
+
+        // 3. Shuffle final 10 questions so order is completely mixed
+        currentQuestions = shuffleArray(quiz10Questions);
     }
 
     function setDifficulty(diff) {
@@ -620,21 +604,6 @@
         badge.textContent = diff.toUpperCase();
 
         restartQuiz();
-    }
-
-    function shuffleArray(arr) {
-        let copy = [...arr];
-        for (let i = copy.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [copy[i], copy[j]] = [copy[j], copy[i]];
-        }
-        return copy;
-    }
-
-    function loadQuestions() {
-        const pool = questionPools[currentDifficulty];
-        const shuffled = shuffleArray(pool);
-        currentQuestions = shuffled.slice(0, 10);
     }
 
     function displayQuestion() {
@@ -742,7 +711,6 @@
 
     // Initialize game build on window load
     window.onload = () => {
-        buildDatabase();
         setDifficulty('easy');
     };
 </script>
