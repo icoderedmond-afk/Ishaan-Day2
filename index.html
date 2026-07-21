@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Animal Trivia Quiz</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-easy: #10b981;
+            --accent-medium: #f59e0b;
+            --accent-hard: #ef4444;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --hover-bg: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            background-color: rgba(15, 23, 42, 0.6);
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-btn.active.easy {
+            background-color: var(--accent-easy);
+            color: #000;
+        }
+
+        .mode-btn.active.medium {
+            background-color: var(--accent-medium);
+            color: #000;
+        }
+
+        .mode-btn.active.hard {
+            background-color: var(--accent-hard);
+            color: #fff;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge.easy { background: rgba(16, 185, 129, 0.2); color: var(--accent-easy); }
+        .badge.medium { background: rgba(245, 158, 11, 0.2); color: var(--accent-medium); }
+        .badge.hard { background: rgba(239, 68, 68, 0.2); color: var(--accent-hard); }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            min-height: 60px;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .option-btn {
+            background-color: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: var(--text-primary);
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: var(--hover-bg);
+            border-color: #64748b;
+            transform: translateY(-1px);
+        }
+
+        .option-btn.correct {
+            background-color: rgba(16, 185, 129, 0.2) !important;
+            border-color: var(--accent-easy) !important;
+            color: var(--accent-easy) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.incorrect {
+            background-color: rgba(239, 68, 68, 0.2) !important;
+            border-color: var(--accent-hard) !important;
+            color: var(--accent-hard) !important;
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+            opacity: 0.8;
+        }
+
+        .explanation {
+            background-color: rgba(15, 23, 42, 0.6);
+            border-left: 4px solid #38bdf8;
+            padding: 14px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #e2e8f0;
+            display: none;
+        }
+
+        .next-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(to right, #38bdf8, #6366f1);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            display: none;
+        }
+
+        .next-btn:hover {
+            opacity: 0.9;
+        }
+
+        .results-card {
+            text-align: center;
+            display: none;
+        }
+
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.8);
+            border: 4px solid #38bdf8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+        }
+
+        .score-num {
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
+
+        .score-total {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .restart-btn {
+            background: linear-gradient(to right, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: opacity 0.2s;
+        }
+
+        .restart-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Fauna Discovery</h1>
+        <p class="subtitle">Explore the Animal Kingdom across 3 Difficulties</p>
+    </header>
+
+    <!-- Difficulty Toggle -->
+    <div class="mode-selector" id="modeSelector">
+        <button class="mode-btn active easy" onclick="setDifficulty('easy')">Easy</button>
+        <button class="mode-btn medium" onclick="setDifficulty('medium')">Medium</button>
+        <button class="mode-btn hard" onclick="setDifficulty('hard')">Hard</button>
+    </div>
+
+    <!-- Quiz Area -->
+    <div id="quizArea">
+        <div class="stats-bar">
+            <span>Question <strong id="qCurrent">1</strong> of 10</span>
+            <span class="badge easy" id="diffBadge">Easy</span>
+            <span>Score: <strong id="scoreDisplay">0</strong></span>
+        </div>
+
+        <div class="question-text" id="questionText">Loading question...</div>
+
+        <div class="options-grid" id="optionsGrid"></div>
+
+        <div class="explanation" id="explanationText"></div>
+
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <!-- Results Screen -->
+    <div class="results-card" id="resultsCard">
+        <h2>Quiz Completed!</h2>
+        <p class="subtitle" id="resultSubtitle">Here is how you performed:</p>
+
+        <div class="score-circle">
+            <span class="score-num" id="finalScore">0</span>
+            <span class="score-total">out of 10</span>
+        </div>
+
+        <p id="feedbackText" style="margin-bottom: 12px; color: #e2e8f0;"></p>
+
+        <button class="restart-btn" onclick="restartQuiz()">Play Again</button>
+    </div>
+</div>
+
+<script>
+    // --- QUESTION BANKS ---
+    
+    // EASY: Well-known animals, basic behavior, life, location, fun facts
+    const easyBank = [
+        {
+            q: "Which continent is the native natural habitat for wild Kangaroos?",
+            options: ["Africa", "Australia", "South America", "Asia"],
+            correct: 1,
+            exp: "Kangaroos are endemic to Australia, where they inhabit scrublands, grasslands, and forests."
+        },
+        {
+            q: "What color is a Polar Bear's skin underneath its thick layer of white fur?",
+            options: ["Pink", "White", "Black", "Brown"],
+            correct: 2,
+            exp: "Polar bear skin is actually black! This helps them absorb heat from the sun to stay warm in arctic climates."
+        },
+        {
+            q: "How do Bees communicate the location of flower nectar to other members of their hive?",
+            options: ["Through high-pitched buzzing", "By performing a 'waggle dance'", "Releasing bright pheromone trails", "Tapping their wings on honeycomb"],
+            correct: 1,
+            exp: "Honey bees use the famous 'waggle dance' to convey direction and distance to nearby food sources."
+        },
+        {
+            q: "What is the primary food source for Giant Pandas in the wild?",
+            options: ["Eucalyptus leaves", "Bamboo", "Fish and small insects", "Wild berries"],
+            correct: 1,
+            exp: "Bamboo makes up over 99% of a wild Giant Panda's daily diet."
+        },
+        {
+            q: "Which land animal holds the record for being the fastest sprinter in short bursts?",
+            options: ["Pronghorn", "Cheetah", "Lion", "Gazelle"],
+            correct: 1,
+            exp: "Cheetahs can reach speeds of up to 60-70 mph (97-113 km/h) in quick sprints."
+        },
+        {
+            q: "Which of these marine mammals is known to sleep with one eye open and half its brain awake?",
+            options: ["Dolphin", "Sea Otter", "Blue Whale", "Walrus"],
+            correct: 0,
+            exp: "Dolphins use unihemispheric sleep to stay alert for predators and remember to surface for air."
+        },
+        {
+            q: "What unique physical feature allows Owls to turn their heads nearly all the way around?",
+            options: ["They have no neck bones", "14 neck vertebrae (twice as many as humans)", "Flexible rubbery tendons", "A rotating ball-and-socket neck joint"],
+            correct: 1,
+            exp: "Owls have 14 neck vertebrae, enabling them to rotate their heads up to 270 degrees."
+        },
+        {
+            q: "Where do wild Emperor Penguins live and raise their chicks?",
+            options: ["The North Pole (Arctic)", "Antarctica", "Galapagos Islands", "Greenland"],
+            correct: 1,
+            exp: "Emperor Penguins live exclusively in Antarctica and endure extreme frozen winters to breed."
+        },
+        {
+            q: "What is a group of Flamingos officially called?",
+            options: ["A Flamboyance", "A Herd", "A Swarm", "A Colony"],
+            correct: 0,
+            exp: "A gathering of colorful flamingos is fittingly called a 'flamboyance'."
+        },
+        {
+            q: "Why do Chameleon lizards primarily change their skin colors?",
+            options: ["Only to hide from predators", "To regulate body temp and express emotions/mood", "To attract insects to eat", "To alert other species of danger"],
+            correct: 1,
+            exp: "Color changes in chameleons signal mood, social dominance, temperature adjustment, and communication."
+        },
+        {
+            q: "What is the largest living mammal on Earth?",
+            options: ["African Elephant", "Blue Whale", "Colossal Squid", "Giraffe"],
+            correct: 1,
+            exp: "The Blue Whale is the largest animal ever known to have existed, weighing up to 200 tons."
+        },
+        {
+            q: "How many heart chambers does a typical frog or amphibian have?",
+            options: ["2", "3", "4", "1"],
+            correct: 1,
+            exp: "Amphibians like frogs have a 3-chambered heart consisting of two atria and one ventricle."
+        }
+    ];
+
+    // MEDIUM: Lesser-known animals, detailed habits, geography, specialized traits
+    const mediumBank = [
+        {
+            q: "The Okapi, a solitary rainforest animal from the Democratic Republic of Congo, is the only living relative of which animal?",
+            options: ["Zebra", "Giraffe", "Antelope", "Tapir"],
+            correct: 1,
+            exp: "Despite having striped legs like a zebra, the Okapi belongs to the Giraffidae family."
+        },
+        {
+            q: "How does the Axolotl (Mexican Walking Fish) uniquely react to lost limbs or damaged organs?",
+            options: ["It forms a thick scar and adapts", "It fully regenerates limbs, tail, and even heart tissue without scars", "It goes into permanent hibernation", "It drops its other limbs to stay balanced"],
+            correct: 1,
+            exp: "Axolotls possess extraordinary regenerative abilities, capable of completely rebuilding limbs and internal organs."
+        },
+        {
+            q: "What is the primary method used by the Pangolin to defend itself when confronted by predators like lions?",
+            options: ["Shooting venomous spray from glands", "Rolling into an impenetrable ball protected by keratin scales", "Burrowing underground in under 3 seconds", "Emitting a deafening distress scream"],
+            correct: 1,
+            exp: "Pangolins roll into tight armored balls. Their sharp keratin scales are tough enough to withstand big cat bites."
+        },
+        {
+            q: "Where is the Fossa, a tree-climbing carnivorous mammal that feeds on lemurs, natively found?",
+            options: ["Borneo", "Madagascar", "Amazon Rainforest", "Congo Basin"],
+            correct: 1,
+            exp: "The Fossa is the top endemic predator on the island of Madagascar."
+        },
+        {
+            q: "What specialized feeding behavior is the Archerfish famous for?",
+            options: ["Spearing fish with a sharp snout", "Shooting droplets of water from its mouth to knock insects off branches", "Creating air bubbles that trap floating beetles", "Leaping 10 feet out of water to grab low birds"],
+            correct: 1,
+            exp: "Archerfish knock down resting insects by shooting accurate jets of water up to 2 meters away."
+        },
+        {
+            q: "How does the Pistol Shrimp hunt its prey from a distance?",
+            options: ["By snapping its claw so fast it creates a cavitation bubble hot as the sun that stuns prey", "By shooting poisonous spines from its abdomen", "By creating miniature whirlpools with tail flicks", "By emitting electric shocks through sea sand"],
+            correct: 0,
+            exp: "The rapid closure of its claw creates an acoustic shockwave and high-temperature bubble that paralyzes prey."
+        },
+        {
+            q: "What is unique about the diet and digestion of the Hoatzin bird ('Stinkbird') of South America?",
+            options: ["It eats exclusively poisonous frogs", "It ferments leaves in a specialized crop, similar to a cow's rumen", "It survives entirely on flower nectar and tree sap", "It digests bones using high-concentration stomach sulfuric acid"],
+            correct: 1,
+            exp: "The Hoatzin uses foregut fermentation to digest leaves, giving it a distinct manure-like odor."
+        },
+        {
+            q: "Which island region is the dwarf wild ox known as the Anoa native to?",
+            options: ["Sulawesi, Indonesia", "Sumatra, Indonesia", "Mindanao, Philippines", "Hainan, China"],
+            correct: 0,
+            exp: "Anoas are tiny endangered wild cattle native to the Indonesian island of Sulawesi."
+        },
+        {
+            q: "How do Naked Mole Rats survive in sealed underground burrows with extremely low oxygen?",
+            options: ["They store oxygen in specialized skin pockets", "They can switch their metabolism to burn fructose like plants", "They enter a state of suspended brain death", "They pump air into tunnels using tail beats"],
+            correct: 1,
+            exp: "When oxygen starves, naked mole-rats switch to anaerobic fructose metabolism to protect vital organs."
+        },
+        {
+            q: "What peculiar habit do Sea Otters engage in while sleeping in open water to avoid drifting away?",
+            options: ["They lock teeth with pack members", "They wrap themselves in kelp giant fronds or hold hands", "They anchor their claws into coastal mud", "They sleep strictly in shallow 2-foot tidepools"],
+            correct: 1,
+            exp: "Sea otters hold hands or anchor in kelp forests ('rafts') to stay together while floating."
+        },
+        {
+            q: "The Lyrebird of Australia is world-renowned for what remarkable behavioral feat?",
+            options: ["Weaving waterproof nests out of spider silk", "Accurately mimicking natural and man-made sounds like chainsaws and cameras", "Building 6-foot tall gravel towers to display to females", "Migrating across the ocean without stopping to sleep"],
+            correct: 1,
+            exp: "Lyrebirds can copy almost any sound in their environment, including other bird species and car alarms."
+        },
+        {
+            q: "What evolutionary adaptation allows the Thorny Devil lizard of West Australia to drink water in arid deserts?",
+            options: ["Absorbing morning dew directly through capillary grooves in its skin to its mouth", "Storing up to 2 gallons of water in a dorsal hump", "Extracting liquid directly from desert cactus spikes", "Filtering salt water through nasal glands"],
+            correct: 0,
+            exp: "Microscopic channels in the Thorny Devil's skin draw water up to its mouth via capillary action."
+        }
+    ];
+
+    // HARD: Obscure species, subspecies, conservation status, specialized anatomy & biology
+    const hardBank = [
+        {
+            q: "What critical conservation classification does the Vaquita (Phocoena sinus), the world's rarest marine mammal, currently hold?",
+            options: ["Vulnerable (VU)", "Critically Endangered (CR)", "Extinct in the Wild (EW)", "Near Threatened (NT)"],
+            correct: 1,
+            exp: "The Vaquita is Critically Endangered, with fewer than 10 individuals remaining in the northern Gulf of California due to illegal gillnet fishing."
+        },
+        {
+            q: "Which sub-species of Tiger (Panthera tigris) is recognized as having the smallest body size and is restricted exclusively to a single Indonesian island?",
+            options: ["Siberian Tiger (P. t. altaica)", "Sumatran Tiger (P. t. sumatrae)", "Bengal Tiger (P. t. tigris)", "Indochinese Tiger (P. t. corbetti)"],
+            correct: 1,
+            exp: "The Sumatran tiger is the smallest surviving tiger subspecies, adapted to dense jungle habitats on the island of Sumatra."
+        },
+        {
+            q: "The Saiga Antelope (Saiga tatarica) possesses an unusually large, bulbous inflatable nose structure. What evolutionary function does this serve during winter migrations?",
+            options: ["Filtering out predators' scents", "Warming cold winter air and filtering out kicked-up dust in summer", "Amplifying vocal mating calls across 10 miles", "Storing reserves of liquid water"],
+            correct: 1,
+            exp: "Its internal nasal structure warms frigid arctic-steppe air before reaching lungs and traps dust during dry summer herds."
+        },
+        {
+            q: "The Kakapo (Strigops habroptilus) of New Zealand is the world's only flightless parrot. What unique lek-mating system feature do males use during breeding season?",
+            options: ["They construct ornate bower bowers of blue glass", "They dig bowl-shaped arenas into ridge tops and emit low-frequency booming sounds", "They battle using heavy horn-like bill crests", "They perform synchronized underwater swimming routines"],
+            correct: 1,
+            exp: "Male Kakapos dig shallow depression track-and-bowl systems on hilltops to echo 5km-wide low frequency 'booms' to attract females."
+        },
+        {
+            q: "To which specific mammalian taxonomic order does the elusive, deep-diving Cuvier's Beaked Whale belong?",
+            options: ["Sirenia", "Cetacea (suborder Odontoceti)", "Carnivora", "Monotremata"],
+            correct: 1,
+            exp: "Cuvier's beaked whale is a toothless-jawed deep diving whale in the suborder Odontoceti (toothed whales), capable of diving over 2,900m deep."
+        },
+        {
+            q: "Where is the critically endangered Ili Pika (Ochotona iliensis), a tiny mountain-dwelling mammal nicknamed the 'Magic Rabbit', exclusively endemic to?",
+            options: ["Tian Shan mountain range in Xinjiang, China", "Himalayan plateau in Nepal", "Altai Mountains in Mongolia", "Caucasus Mountains in Georgia"],
+            correct: 0,
+            exp: "Discovered in 1983, the Ili Pika is restricted entirely to bare cliff faces in China's Tian Shan mountains."
+        },
+        {
+            q: "What strange defensive tactic is practiced by the Fulmar sea bird chick when its nest on mountain cliffs is threatened?",
+            options: ["Projecting a foul, sticky, stomach-oil spray at intruders", "Dropping heavy stones down from its nest ledge", "Pretending to be dead while emitting rot scents", "Inflating its throat sack to double its visual size"],
+            correct: 0,
+            exp: "Fulmar chicks projectile-vomit an orange, foul-smelling stomach oil that mats predator feathers and destroys waterproof coatings."
+        },
+        {
+            q: "Which subspecies of North American Elk is considered extinct today due to overhunting in the 19th century?",
+            options: ["Roosevelt Elk", "Eastern Elk (Cervus canadensis canadensis)", "Rocky Mountain Elk", "Tule Elk"],
+            correct: 1,
+            exp: "The Eastern Elk once inhabited eastern US forests but was declared officially extinct by the US Fish and Wildlife Service in 1880."
+        },
+        {
+            q: "What extraordinary environmental adaptation allows the Wood Frog (Lithobates sylvaticus) to survive sub-zero Alaskan winters?",
+            options: ["It burrows 20 feet deep below frost lines", "It accumulates glucose/urea in tissues to freeze solid up to 65% of its body water", "It generates internal metabolic heat like mammals", "It spins a silk thermal cocoon underwater"],
+            correct: 1,
+            exp: "Wood frogs produce high concentrations of glucose that act as a natural cryoprotectant, allowing heart and breathing to stop completely during winter."
+        },
+        {
+            q: "Which obscure deep-sea organism is famous for being biologically immortal due to transdifferentiation?",
+            options: ["Turritopsis dohrnii (Immortal Jellyfish)", "Giant Isopod", "Vampire Squid", "Barreleye Fish"],
+            correct: 0,
+            exp: "Turritopsis dohrnii can revert its mature adult cells back to a juvenile polyp state when damaged or stressed, resetting its lifecycle indefinitely."
+        },
+        {
+            q: "The Solenodon, an obscure nocturnal insectivore from Hispaniola and Cuba, is one of the very few mammals capable of doing what?",
+            options: ["Flying using skin webbing between legs", "Injecting venom via grooved lower incisors", "Echolocating like micro-bats underground", "Photosynthesizing sunlight using algae in fur"],
+            correct: 1,
+            exp: "Solenodons deliver toxic venom through modified grooved lower teeth to paralyze prey."
+        },
+        {
+            q: "What is the primary conservation threat facing the critically endangered Lord Howe Island Stick Insect ('Tree Lobster')?",
+            options: ["Deforestation for timber", "Invasive Black Rats introduced by shipwrecks", "Fungal skin infection", "Over-collection for pet trades"],
+            correct: 1,
+            exp: "Invasive black rats wiped out the population on Lord Howe Island by 1920 until a tiny remnant colony was rediscovered on Ball's Pyramid reef."
+        }
+    ];
+
+    // --- GAME ENGINE STATE ---
+    let currentDifficulty = 'easy';
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    // --- FUNCTIONS ---
+
+    function setDifficulty(diff) {
+        currentDifficulty = diff;
+        
+        // Update button UI
+        const buttons = document.querySelectorAll('.mode-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active', 'easy', 'medium', 'hard');
+            if (btn.textContent.toLowerCase() === diff) {
+                btn.classList.add('active', diff);
+            }
+        });
+
+        // Update badge
+        const badge = document.getElementById('diffBadge');
+        badge.className = `badge ${diff}`;
+        badge.textContent = diff.toUpperCase();
+
+        restartQuiz();
+    }
+
+    function shuffleArray(arr) {
+        let copy = [...arr];
+        for (let i = copy.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+    }
+
+    function loadQuestions() {
+        let bank;
+        if (currentDifficulty === 'easy') bank = easyBank;
+        else if (currentDifficulty === 'medium') bank = mediumBank;
+        else bank = hardBank;
+
+        // Shuffle questions and select 10
+        let shuffled = shuffleArray(bank);
+        currentQuestions = shuffled.slice(0, 10);
+    }
+
+    function displayQuestion() {
+        answered = false;
+        const qData = currentQuestions[currentIndex];
+
+        document.getElementById('qCurrent').textContent = currentIndex + 1;
+        document.getElementById('scoreDisplay').textContent = score;
+        document.getElementById('questionText').textContent = qData.q;
+        
+        const optionsGrid = document.getElementById('optionsGrid');
+        optionsGrid.innerHTML = '';
+
+        const expBox = document.getElementById('explanationText');
+        expBox.style.display = 'none';
+        expBox.textContent = '';
+
+        document.getElementById('nextBtn').style.display = 'none';
+
+        // Display options
+        qData.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerHTML = `<span>${opt}</span>`;
+            btn.onclick = () => selectOption(idx);
+            optionsGrid.appendChild(btn);
+        });
+    }
+
+    function selectOption(selectedIndex) {
+        if (answered) return;
+        answered = true;
+
+        const qData = currentQuestions[currentIndex];
+        const buttons = document.querySelectorAll('.option-btn');
+
+        buttons.forEach((btn, idx) => {
+            btn.disabled = true;
+            if (idx === qData.correct) {
+                btn.classList.add('correct');
+            }
+            if (idx === selectedIndex && selectedIndex !== qData.correct) {
+                btn.classList.add('incorrect');
+            }
+        });
+
+        if (selectedIndex === qData.correct) {
+            score++;
+            document.getElementById('scoreDisplay').textContent = score;
+        }
+
+        // Show Explanation
+        const expBox = document.getElementById('explanationText');
+        expBox.textContent = qData.exp;
+        expBox.style.display = 'block';
+
+        // Show Next button
+        const nextBtn = document.getElementById('nextBtn');
+        if (currentIndex < 9) {
+            nextBtn.textContent = "Next Question";
+        } else {
+            nextBtn.textContent = "See Final Results";
+        }
+        nextBtn.style.display = 'block';
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        if (currentIndex < 10) {
+            displayQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quizArea').style.display = 'none';
+        document.getElementById('modeSelector').style.display = 'none';
+        
+        const resultsCard = document.getElementById('resultsCard');
+        resultsCard.style.display = 'block';
+
+        document.getElementById('finalScore').textContent = score;
+
+        let feedback = "";
+        if (score === 10) feedback = "Flawless performance! You are a true master of zoology!";
+        else if (score >= 7) feedback = "Great job! You really know your animal facts.";
+        else if (score >= 4) feedback = "Decent effort! Try again to boost your fauna knowledge.";
+        else feedback = "Animals can be tricky! Try the easy mode or read up and attempt again.";
+
+        document.getElementById('feedbackText').textContent = feedback;
+    }
+
+    function restartQuiz() {
+        currentIndex = 0;
+        score = 0;
+        
+        document.getElementById('resultsCard').style.display = 'none';
+        document.getElementById('quizArea').style.display = 'block';
+        document.getElementById('modeSelector').style.display = 'flex';
+
+        loadQuestions();
+        displayQuestion();
+    }
+
+    // Initialize on load
+    window.onload = () => {
+        setDifficulty('easy');
+    };
+</script>
+
+</body>
+</html>
